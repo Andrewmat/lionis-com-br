@@ -1,0 +1,29 @@
+---
+title: Hello World
+published: false
+date: 2024-10-07 18:51:00 -0300
+tags: example
+slug: hello-world
+---
+
+export const meta = [{ title: frontmatter.title }];
+
+# {frontmatter.title}
+
+This is a test document. It has **bold** and _italic_ fonts, `code` formatted and:
+
+- lists
+- with no
+- order
+
+1. but also
+2. ordered
+3. lists
+
+There are also [links](https://github.com).
+
+```jsx
+function itAlso(has) {
+  return <CodeSupport />;
+}
+```
