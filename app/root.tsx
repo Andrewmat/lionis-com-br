@@ -5,6 +5,7 @@ import {
   Scripts,
   ScrollRestoration,
   useLoaderData,
+  useRouteLoaderData,
 } from '@remix-run/react';
 import type { LinksFunction, LoaderFunctionArgs } from '@remix-run/node';
 import clsx from 'clsx';
@@ -12,6 +13,7 @@ import {
   PreventFlashOnWrongTheme,
   ThemeProvider,
   useTheme,
+  type Theme,
 } from 'remix-themes';
 import { themeSessionResolver } from './theme.server';
 import './tailwind.css';
@@ -32,27 +34,15 @@ export const links: LinksFunction = () => [
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const { getTheme } = await themeSessionResolver(request);
-  return {
-    theme: getTheme(),
-  };
+  return { theme: getTheme() };
 }
-
-function LayoutWithProviders(props: { children: React.ReactNode }) {
-  const data = useLoaderData<typeof loader>();
-
-  return (
-    <ThemeProvider specifiedTheme={data.theme} themeAction="/action/set-theme">
-      <Layout {...props} />
-    </ThemeProvider>
-  );
-}
-export { LayoutWithProviders as Layout };
 
 function Layout({ children }: { children: React.ReactNode }) {
-  const data = useLoaderData<typeof loader>();
+  const data = useRouteLoaderData<typeof loader>('root');
   const [theme] = useTheme();
+
   return (
-    <html lang="pt-BR" className={clsx(theme)}>
+    <html lang="pt-BR" className={clsx(theme)} data-theme={theme}>
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -62,7 +52,7 @@ function Layout({ children }: { children: React.ReactNode }) {
       <body>
         <div id="root">{children}</div>
         <ScrollRestoration />
-        <PreventFlashOnWrongTheme ssrTheme={Boolean(data.theme)} />
+        <PreventFlashOnWrongTheme ssrTheme={Boolean(data?.theme)} />
         <Scripts />
       </body>
     </html>
@@ -70,5 +60,23 @@ function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
-  return <Outlet />;
+  return (
+    <Providers>
+      <div className="wrapper">
+        <Outlet />
+      </div>
+    </Providers>
+  );
+}
+
+function Providers({ children }: { children: React.ReactNode }) {
+  const data = useLoaderData<typeof loader>();
+  return (
+    <ThemeProvider
+      specifiedTheme={data?.theme as Theme}
+      themeAction="/action/set-theme"
+    >
+      <Layout>{children}</Layout>
+    </ThemeProvider>
+  );
 }

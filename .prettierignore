@@ -1,0 +1,4 @@
+# <p> tag being created in <button> because of prettier
+# https://github.com/mdx-js/mdx/issues/1798
+# https://github.com/prettier/prettier/issues/12209
+**/*.mdx

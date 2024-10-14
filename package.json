@@ -31,6 +31,7 @@
     "remark-frontmatter": "^5.0.0",
     "remark-mdx-frontmatter": "^5.0.0",
     "remix-themes": "^1.5.1",
+    "remix-utils": "^7.7.0",
     "tailwind-merge": "^2.5.3",
     "tailwindcss-animate": "^1.0.7"
   },

@@ -3,19 +3,17 @@ title: This is the title
 description: Ola mundo 2
 published: false
 date: 2024-10-07 18:51:00 -0300
-tags: example
-slug: hello-world
+tags: [example]
 summary: |
   This is a test
   of a multiline summary
 ---
-
-import { getMeta, getLoader } from '~/lib/mdx-utils';
+import { getMeta, getLoader , PostHeading } from '~/lib/mdx-utils';
 
 export const loader = getLoader(frontmatter);
 export const meta = getMeta(frontmatter);
 
-# {frontmatter.title}
+<PostHeading {...frontmatter} />
 
 This is a test document. It has **bold** and _italic_ fonts, also `code` formatting\
 and:
@@ -30,7 +28,9 @@ and:
 2. ordered
 3. lists
 
-There are also [links](https://github.com).
+There are also [links](https://github.com) and [internal links](/).
+
+<Button type="button" variant="default">And also buttons</Button>
 
 ```jsx
 function itAlso(has) {

@@ -1,0 +1,103 @@
+---
+title: Procurando a motivação
+published: true
+description: Uma pequena coleção de histórias pessoais sobre como entender o objetivo da tarefa ajuda a executarmos ela melhor
+tags: discuss, programming, braziliandevs
+date: 2023-10-07 18:51:00 -0300
+---
+import { getMeta, getLoader , PostHeading } from '~/lib/mdx-utils';
+
+export const loader = getLoader(frontmatter);
+export const meta = getMeta(frontmatter);
+
+<PostHeading {...frontmatter} />
+
+
+Esse post não é sobre código. Mesmo se não souber programar, você não deve ter dificuldades em acompanhar :smile:
+
+---
+
+Eu já ouvi bastante feedback no meu trabalho. O mais constante sendo melhorias de comunicação, que até hoje tenho certo problema. 
+
+Um problema que ocorria frequentemente era que as minhas explicações que eram muito técnicas. Na minha conversa com o time de produto isso complicava tudo. Por exemplo, eu explicava todo o contexto por volta de uma nova implementação de feature. Levantava as possibilidades que conseguia pensar, trazendo as facilidades e dificuldades que trariam na implementação inicial e na manutenção do código. Eu estava pensando comigo mesmo e sendo transparente com todo mundo.
+
+Isso era relevante se fosse discutir com pessoas mais seniores, mas raramente era o caso. O que aprendi com o tempo era entender o escopo do que as pessoas *precisavam* saber, e trazer isso a elas. Entender o porquê daquela comunicação existir, e relevar o que exatamente eu precisava comunicar de acordo com esse motivo.
+
+Aplicando isso, as mensagens de Slack que eram 5 parágrafos gigantes explicando os pormenores da entrega viravam 5 frases breves focando no que a pessoa precisava saber. Pra escrever as 5 frases eu ainda demoro, mas a comunicação fica bem mais fluída assim.
+
+---
+
+Eu lembro quando eu criava testes de componentes React usando Enzyme. Foi ótimo aprender o mundo frontend com ele, porque eram simples, e qualquer um poderia criar testes sem esforço.
+
+```js
+it('renders', () => {
+  const wrapper = shallow(<Component />);
+  expect(wrapper).toMatchSnapshot();
+})
+```
+
+Eu gosto de pensar nesses testes como "snacks", eles são rápidos de serem escritos e entendidos, e raramente quebram. Se quebrar, era um processo simples corrigir eles, geralmente eu apertava U no teclado e o snapshot atualizava sozinho, eu nem precisava verificar.
+
+Mas uma coisa que ficava escondida para mim era que os testes, sendo fáceis de serem mantidos, eram também *muito* inúteis. Muitos bugs passavam nesse método, e no final o valor dos testes era bem limitado.
+
+React Testing Library chega na minha vida. Ela vem com um princípio:
+
+> The more your tests resemble the way your software is used, the more confidence they can give you.
+
+Essa pequena frase afeta bastante. Para seguir esse princípio, a React Testing Library tem **menos** possibilidades do que a Enzyme, mas o que pra mim parecia um detrator da lib acabava sendo uma vantagem. Isso diminui o foco na estrutura do código, e aumenta o foco no usuário como valor principal dos testes.
+
+Eu só fazia testes porque era considerado boa prática, mas nenhum momento eu tinha pensado em um Objetivo dos testes, que colocava valor nos testes em si. Eu nem precisava da React Testing Library pra aplicar esse princípio. Ao me restringir dentro do Enzyme, eu criava testes com mais valor.
+
+---
+
+DRY (*Don't Repeat Yourself* ou *Não Se Repita*) é um acrônimo bem popular de boa prática no mundo da programação. A ideia dele é reduzir retrabalho com a regra de não duplicar código.
+
+Essa regra é aplicada não só no frontend, mas em todos os níveis de programação que já vi. E de longe é a mais popular e mais implementada por times. Uma crítica recente a essa "boa prática" é que ela introduz códigos complexos demais com o tempo.
+
+O processo acaba sendo o seguinte: uma pessoa evita repetir o código introduzindo uma abstração. Outra pessoa, considerando que precisa dessa abstração, usa ela e altera pro seu caso. E mais uma pessoa, e outra, assim vai indo. Até que a abstração não faz mais sentido, mas é utilizada por todos.
+
+Outras regras foram introduzidas para mitigar esse problema. WET (*Write Everything Twice* ou *Escreva Tudo Duas Vezes*) é uma regra que diz: "Todo código deve ser escrito no máximo duas vezes". É uma regra que mitiga esses problemas, mas ao meu ver tem outra regra, ou melhor, ideia, que diminui a complexidade de código, o [AHA](https://dev.to/cher/avoiding-hasty-abstractions-aha-programming-3d3b): "Avoid Hasty Abstractions" (ou Evite Abstrações Apressadas).
+
+A ideia do AHA programming é introduzir abstrações no código quando elas forem necessárias, e diminuir o uso de abstrações simplesmente por abstrair.
+
+A vantagem (e desvantagem) do AHA é que ele não dá uma regra fácil de ser seguida. Ele abre mão de uma regra definida para que a pessoa desenvolvendo consiga determinar vários fatores que definam se tal abstração é necessária. Isso faz com que alguns casos apareçam meio estranhos, por exemplo:
+
+```js
+const DEBUG_QUERY_PARAM = 'shouldDebug'
+
+function Component() {
+  const { search } = useLocation()
+  // ...
+
+  const doSomething = () => {
+    const shouldDebug = new URLQueryParams(location.search)
+        .has(DEBUG_QUERY_PARAM);
+    if (shouldDebug) {
+      console.log('debugging happening');
+    }
+    // ...
+  }
+}
+```
+
+Esse código tem duas abstrações relevantes: `DEBUG_QUERY_PARAM` e `shouldDebug`. Ambas existem mas só são utilizadas uma vez.
+
+Se for se basear só nas regras de DRY ou WET, ambas as abstrações não fazem sentido, elas estão sendo usadas só uma vez no código. Mas é importante capturar o propósito real por traz delas antes de removê-las.
+
+`DEBUG_QUERY_PARAM` tem uma valor de documentar o comportamento. Ele informa pra quem está lendo que existe uma função de debug do código, e ele é controlado pela query param `shouldDebug`. A intenção do código não é reuso, mas sim documentação de uma feature.
+
+`shouldDebug` tem o propósito de abstrair um código complexo em um código fácil de ser entendido por um humano, pode inclusive ensinar através dessa interface amigável. Além disso, ele representa melhor a intenção da pessoa que o criou, fazendo o trabalho de manutenção mais fácil caso haja algum bug.
+
+> ⚠️ Eu não estou necessariamente dizendo que o código escrito é um bom código. Leve em conta o contexto dele antes de aplicar o mesmo racional.
+
+## Por quê?
+
+Essas historietas estão conectadas por uma ideia, sintetizada por uma/duas palavra(s): "Por quê?" Pra trazer valor em uma tarefa, eu preciso entender o motivo dela.
+
+Já vi uma técnica chamada "Os 5 porquês", criada com o objetivo de chegar à raiz do problema. Nela, você entra numa recursão: pergunta o motivo de um problema ocorrer, e depois disso procura explicar porque esse motivo existe, e continuamente. 
+
+Essa técnica pode ser aplicada onde você ainda não enxerga problemas. Tente entender a motivação por trás. Essa motivação não precisa ser a melhor do mundo, mas tem que ser sincera. Se você quer usar TypeScript invés de JS, você não precisa falar que tem mais qualidade ou os mesmos argumentos de sempre. Os argumentos podem ser baseados no seu contexto: talvez você queira experimentar TS no seu projeto, ou você queira melhorar seu portifólio profissional.
+
+## *Post Scriptum*
+
+Sendo um pouco meta aqui e aplicando o post no próprio. Eu já tentei escrever muito, mas nunca terminei de escrever. Falei sobre esse assunto no post porque é um assunto que tenho muito o que falar, o que facilita a escrever. E no final, quero escrever posts como esse como parte da minha vida profissional.

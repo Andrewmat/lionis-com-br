@@ -1,0 +1,52 @@
+---
+title: Separação de responsabilidades é uma farsa
+published: false
+description: Porque essa "boa prática" é inválida e como separar corretamente seu código
+summary: Porque essa "boa prática" é inválida e como separar corretamente seu código
+date: 2024-09-27 14:49 +0000
+---
+import { getMeta, getLoader , PostHeading } from '~/lib/mdx-utils';
+
+export const loader = getLoader(frontmatter);
+export const meta = getMeta(frontmatter);
+
+<PostHeading {...frontmatter} />
+
+Muito se fala sobre separação de responsabilidades, mas o termo é muito genérico
+
+No front, já vi sendo aplicado
+
+* html/css/js
+* lógica back / lógica front
+* especialização por domínios
+
+Eu defendo separação com um motto: junte o que é relacionado, separe o que não é relacionado.
+
+Uma analogia que faço são os times multidisciplinares que já trabalhei. Embora cada um tem sua especialidade, todo mundo é agrupado para um foco.
+
+Esse motto ainda tem um problema: ele é genérico, então ainda existem várias interpretações. Mas isso dá liberdade de aplicar em lugares diferentes.
+
+Exemplo: um arquivo de componente Vue contém tudo que o componente necessita. Ele é separado em template (a parte html), style (a parte css) e script (a parte js). Mas como tudo fica num só arquivo, ele acaba escopando sua responsabilidade, embora com especialidades diferentes
+
+Um outro exemplo: Um módulo de projeto sendo auto sustentável. Ele minimiza as dependências e contém todas as especialidades dele: a interface, a lógica de negócio, os clients de serviços externos, etc
+
+Mais um exemplo: React Server Components é uma forma de juntar o backend com o frontend, onde UI e banco de dados estão bem próximos.
+
+As vantagens do motto:
+
+* A pessoa dev tem controle sobre o que precisa. Ela não precisa que outros módulos atualizem pra criar uma coisa diferente do padrão
+* A flexibilidade de código possibilita refactors constantes. Não quer dizer que precisa fazer, mas é bom ter a possibilidade para evitar legado
+* Um escopo delimitado quer dizer que a resiliência do projeto é bem mais controlada, já que mudanças no módulo não impactam outros módulos, mudanças pequenas não vão quebrar um código distante
+* Migrações são mais fáceis. Como cada módulo é independente, colocar o módulo em um outro lugar do sistema é relativamente simples
+
+As desvantagens:
+
+* O código é mais generalista, então pra manter uma unidade de código é preciso entender várias tecnologias
+* A padronização serve um baque, já que cada módulo tem liberdade de fazer como quiser. Essa falta de padronização afeta tanto devs que precisam aprender o código quanto usuários com interfaces diferentes
+* Como as partes são mais independentes, não temos um controle bem definido da aplicação, então alguns módulos podem criar coisas que afetam o restante do sistema
+* Migrações são mais difíceis, o trabalho de trocar de uma tecnologia para outra acaba não valendo a pena.
+
+Falar sobre reuso de código
+
+* Mitigar falta de padronização com códigos reutilizáveis **úteis**
+* Mitigar falta de controle usando governança de módulos com sistemas de monitoramento e módulos de uso obrigatório
