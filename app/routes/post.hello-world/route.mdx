@@ -1,0 +1,51 @@
+---
+title: This is the title
+description: Ola mundo 2
+published: false
+date: 2024-10-07 18:51:00 -0300
+tags: example
+slug: hello-world
+summary: |
+  This is a test
+  of a multiline summary
+---
+
+import { getMeta, getLoader } from '~/lib/mdx-utils';
+
+export const loader = getLoader(frontmatter);
+export const meta = getMeta(frontmatter);
+
+# {frontmatter.title}
+
+This is a test document. It has **bold** and _italic_ fonts, also `code` formatting\
+and:
+
+- lists
+- with no
+- order
+
+## And headings too
+
+1. also
+2. ordered
+3. lists
+
+There are also [links](https://github.com).
+
+```jsx
+function itAlso(has) {
+  return <Code support />;
+}
+```
+
+```tsx
+function itAlso(has: Props) {
+  return <Code support />;
+}
+```
+
+```ts
+function itAlso(has: Props) {
+  let value: number = 1;
+}
+```

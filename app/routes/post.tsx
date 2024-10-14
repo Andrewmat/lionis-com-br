@@ -1,11 +1,9 @@
 import type { LinksFunction } from '@remix-run/node';
 import { Outlet } from '@remix-run/react';
 import { MDXProvider } from '@mdx-js/react';
-import syntaxHighlight from '~/both.css?url';
-import { cn } from '~/lib/utils';
-import Post from './post.hello-world.mdx';
 import { ModeToggle } from '~/components/mode-toggle';
-import { components } from '~/components/post';
+import { components } from '~/components/post-preset';
+import syntaxHighlight from '~/styles/syntax/atom-one-dark.min.css?url';
 
 export const links: LinksFunction = () => [
   {
@@ -21,7 +19,7 @@ export default function PostsPage() {
         Header
         <ModeToggle />
       </header>
-      <article className="[&>*]:my-4">
+      <article>
         <MDXProvider components={components}>
           <Outlet />
         </MDXProvider>

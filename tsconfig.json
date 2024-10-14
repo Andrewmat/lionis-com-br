@@ -2,10 +2,13 @@
   "include": [
     "**/*.ts",
     "**/*.tsx",
+    "**/*.mdx",
     "**/.server/**/*.ts",
     "**/.server/**/*.tsx",
+    "**/.server/**/*.mdx",
     "**/.client/**/*.ts",
-    "**/.client/**/*.tsx"
+    "**/.client/**/*.tsx",
+    "**/.client/**/*.mdx"
   ],
   "compilerOptions": {
     "lib": ["DOM", "DOM.Iterable", "ES2022"],

@@ -13,7 +13,7 @@ import {
   ThemeProvider,
   useTheme,
 } from 'remix-themes';
-import { themeSessionResolver } from './session.server';
+import { themeSessionResolver } from './theme.server';
 import './tailwind.css';
 import './global.css';
 

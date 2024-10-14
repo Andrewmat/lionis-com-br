@@ -1,10 +1,11 @@
+import { resolve } from 'node:path';
 import { vitePlugin as remix } from '@remix-run/dev';
 import { defineConfig } from 'vite';
 import tsconfigPaths from 'vite-tsconfig-paths';
 import remarkFrontmatter from 'remark-frontmatter';
+import rehypeHighlight from 'rehype-highlight';
 import remarkMdxFrontmatter from 'remark-mdx-frontmatter';
 import mdx from '@mdx-js/rollup';
-import rehypeStarryNight from 'rehype-starry-night';
 
 export default defineConfig({
   plugins: [
@@ -12,7 +13,7 @@ export default defineConfig({
       enforce: 'pre',
       ...mdx({
         remarkPlugins: [remarkFrontmatter, remarkMdxFrontmatter],
-        rehypePlugins: [rehypeStarryNight],
+        rehypePlugins: [rehypeHighlight],
         providerImportSource: '@mdx-js/react',
       }),
     },
@@ -25,4 +26,9 @@ export default defineConfig({
     }),
     tsconfigPaths(),
   ],
+  resolve: {
+    alias: {
+      '~': resolve(__dirname, './app'),
+    },
+  },
 });
