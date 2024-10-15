@@ -20,6 +20,8 @@ import { themeSessionResolver } from './theme.server';
 import './tailwind.css';
 import './global.css';
 import { Toaster } from './components/ui/toaster';
+import { setDefaultOptions } from 'date-fns';
+import { ptBR } from 'date-fns/locale/pt-BR';
 
 export const meta: MetaFunction = () => [
   {
@@ -89,3 +91,5 @@ function Providers({ children }: { children: React.ReactNode }) {
     </ThemeProvider>
   );
 }
+
+setDefaultOptions({ locale: ptBR });

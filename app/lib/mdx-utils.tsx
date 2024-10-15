@@ -1,5 +1,6 @@
 import type { LoaderFunction } from '@remix-run/node';
 import type { MetaDescriptor } from '@remix-run/react';
+import { format, formatDistanceToNow } from 'date-fns';
 
 export type FrontmatterMeta = {
   title: string;
@@ -36,7 +37,9 @@ export function PostHeading(props: FrontmatterMeta) {
   return (
     <div className="mb-4">
       <h1 className="text-4xl mb-1">{props.title}</h1>
-      <small>{new Date(props.date).toLocaleDateString()}</small>
+      <small title={format(props.date, 'dd MMM yyyy HH:mm')}>
+        {formatDistanceToNow(props.date)}
+      </small>
     </div>
   );
 }
