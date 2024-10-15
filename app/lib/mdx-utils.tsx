@@ -34,8 +34,8 @@ export function getLoader(frontmatter: FrontmatterMeta): LoaderFunction {
 
 export function PostHeading(props: FrontmatterMeta) {
   return (
-    <div>
-      <h1 className="text-4xl mb-2">{props.title}</h1>
+    <div className="mb-4">
+      <h1 className="text-4xl mb-1">{props.title}</h1>
       <small>{new Date(props.date).toLocaleDateString()}</small>
     </div>
   );

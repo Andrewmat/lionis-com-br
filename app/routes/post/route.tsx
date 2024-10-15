@@ -30,7 +30,7 @@ export const links: LinksFunction = () => [
 export default function PostPage() {
   return (
     <Layout>
-      <article className="post-wrapper">
+      <article className="post-wrapper mx-5 lg:mx-0">
         <MDXProvider components={components}>
           <Outlet />
         </MDXProvider>

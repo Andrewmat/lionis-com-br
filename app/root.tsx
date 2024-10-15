@@ -6,6 +6,7 @@ import {
   ScrollRestoration,
   useLoaderData,
   useRouteLoaderData,
+  type MetaFunction,
 } from '@remix-run/react';
 import type { LinksFunction, LoaderFunctionArgs } from '@remix-run/node';
 import clsx from 'clsx';
@@ -18,6 +19,13 @@ import {
 import { themeSessionResolver } from './theme.server';
 import './tailwind.css';
 import './global.css';
+import { Toaster } from './components/ui/toaster';
+
+export const meta: MetaFunction = () => [
+  {
+    title: 'Eu, Lionis | Blog de um frontend',
+  },
+];
 
 export const links: LinksFunction = () => [
   { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
@@ -54,6 +62,7 @@ function Layout({ children }: { children: React.ReactNode }) {
         <ScrollRestoration />
         <PreventFlashOnWrongTheme ssrTheme={Boolean(data?.theme)} />
         <Scripts />
+        <Toaster />
       </body>
     </html>
   );

@@ -8,10 +8,11 @@ import { Link } from '@remix-run/react';
 import type { MDXComponents } from 'node_modules/@mdx-js/react/lib';
 import { cloneElement, type ReactElement } from 'react';
 import { cn } from '~/lib/utils';
+import { Heading } from './Heading';
 
 export const components: MDXComponents = {
-  h1: mergeElement(<h1 className="text-4xl mb-2" />),
-  h2: mergeElement(<h2 className="text-2xl" />),
+  h1: mergeElement(<Heading as="h1" className="text-4xl" />),
+  h2: mergeElement(<Heading as="h2" className="text-2xl" />),
   p: mergeElement(<p className="mb-5 leading-7" />),
   a: ({ href, ...delegatedProps }) => (
     <Link

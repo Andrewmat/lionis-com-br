@@ -9,6 +9,7 @@ summary: |
   of a multiline summary
 ---
 import { getMeta, getLoader , PostHeading } from '~/lib/mdx-utils';
+import {Button} from '~/components/ui/button'
 
 export const loader = getLoader(frontmatter);
 export const meta = getMeta(frontmatter);
@@ -30,7 +31,7 @@ and:
 
 There are also [links](https://github.com) and [internal links](/).
 
-<Button type="button" variant="default">And also buttons</Button>
+<Button type="button" className='mb-4' variant="default">And also buttons</Button>
 
 ```jsx
 function itAlso(has) {
