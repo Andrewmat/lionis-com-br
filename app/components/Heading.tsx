@@ -42,7 +42,7 @@ export function Heading<AsType extends `h${1 | 2 | 3 | 4 | 5 | 6}`>({
   return (
     <div className="flex gap-2 items-center mb-2">
       {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-      <a id={slug}>
+      <a id={slug} className="scroll-mt-[80px]">
         {/* @ts-ignore */}
         <Comp
           {...props}
@@ -70,7 +70,11 @@ async function copyToClipboard(content: string) {
 
 function smoothNavigate(id: string) {
   const elem = document.getElementById(id);
-  elem?.scrollIntoView({ behavior: 'smooth' });
+  elem?.scrollIntoView({
+    behavior: 'smooth',
+    block: 'start',
+    inline: 'nearest',
+  });
 
   const url = new URL(window.location.href);
   url.hash = `#${id}`;
