@@ -5,7 +5,8 @@ import { format, formatDistanceToNow } from 'date-fns';
 export type FrontmatterMeta = {
   title: string;
   published: boolean;
-  date: string;
+  publishDate: string;
+  lastUpdateDate: string;
   description?: string;
   summary?: string;
   tags?: string[];
@@ -33,12 +34,12 @@ export function getLoader(frontmatter: FrontmatterMeta): LoaderFunction {
   };
 }
 
-export function PostHeading(props: FrontmatterMeta) {
+export function PostHeader(props: FrontmatterMeta) {
   return (
     <div className="mb-4">
       <h1 className="text-4xl mb-1">{props.title}</h1>
-      <small title={format(props.date, 'dd MMM yyyy HH:mm')}>
-        {formatDistanceToNow(props.date)}
+      <small title={format(props.publishDate, 'dd MMM yyyy HH:mm')}>
+        {formatDistanceToNow(props.publishDate)}
       </small>
     </div>
   );

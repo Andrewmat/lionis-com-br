@@ -2,23 +2,27 @@
   eslint-disable
     jsx-a11y/heading-has-content,
     jsx-a11y/anchor-has-content,
+    jsx-a11y/alt-text,
     jsx-a11y/anchor-is-valid
 */
 import { Link } from '@remix-run/react';
 import type { MDXComponents } from 'node_modules/@mdx-js/react/lib';
-import { cloneElement, type ReactElement } from 'react';
+import { cloneElement, type HTMLAttributes, type ReactElement } from 'react';
 import { cn } from '~/lib/utils';
-import { Heading } from './Heading';
+import { SectionTitle } from './section-title';
 
 export const components: MDXComponents = {
-  h1: mergeElement(<Heading as="h1" className="text-4xl" />),
-  h2: mergeElement(<Heading as="h2" className="text-2xl" />),
+  h1: mergeElement(<SectionTitle as="h1" className="text-4xl" />),
+  h2: mergeElement(<SectionTitle as="h2" className="text-2xl" />),
+  h3: mergeElement(<SectionTitle as="h3" className="text-xl" />),
+  h4: mergeElement(<SectionTitle as="h4" className="text-lg" />),
   p: mergeElement(<p className="mb-5 leading-7" />),
   a: ({ href, ...delegatedProps }) => (
     <Link
       to={href!}
       {...mergeProps(delegatedProps, {
-        className: 'underline hover:text-foreground',
+        className: 'underline hover:text-accent-foreground',
+        target: href?.startsWith('http') ? '_blank' : undefined,
       })}
     />
   ),
@@ -27,13 +31,14 @@ export const components: MDXComponents = {
   li: mergeElement(<li className="list-outside ms-5" />),
   strong: mergeElement(<strong className="font-extrabold" />),
   code: mergeElement(
-    <code className="inline-block px-0.5 py-0 rounded-sm text-secondary-foreground bg-secondary" />
+    <code className="inline-block px-0.5 py-0 rounded-sm [:not(pre)>&]:text-accent-foreground [:not(pre)>&]:bg-accent" />
   ),
   pre: mergeElement(<pre className="mb-5 md:mx-8" />),
   hr: mergeElement(<hr className="mb-4" />),
   blockquote: mergeElement(
     <blockquote className="ps-4 pt-5 mb-5 border-l-2 border-foreground italic bg-white/5" />
   ),
+  img: mergeElement(<img className="mx-auto" />),
 };
 
 function mergeElement(element: ReactElement) {
@@ -45,8 +50,8 @@ function mergeElement(element: ReactElement) {
 }
 
 function mergeProps(
-  props1: { className?: string },
-  props2: { className?: string }
+  props1: HTMLAttributes<HTMLAnchorElement>,
+  props2: HTMLAttributes<HTMLAnchorElement>
 ) {
   return {
     ...props1,

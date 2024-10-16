@@ -1,16 +1,16 @@
 ---
 title: Separação de responsabilidades é uma farsa
-published: false
 description: Porque essa "boa prática" é inválida e como separar corretamente seu código
 summary: Porque essa "boa prática" é inválida e como separar corretamente seu código
-date: 2024-09-27 14:49 +0000
+published: false
+publishDate: 2024-09-27 14:49 +0000
 ---
-import { getMeta, getLoader , PostHeading } from '~/lib/mdx-utils';
+import { getMeta, getLoader , PostHeader } from '~/lib/mdx-utils';
 
 export const loader = getLoader(frontmatter);
 export const meta = getMeta(frontmatter);
 
-<PostHeading {...frontmatter} />
+<PostHeader {...frontmatter} />
 
 Muito se fala sobre separação de responsabilidades, mas o termo é muito genérico
 

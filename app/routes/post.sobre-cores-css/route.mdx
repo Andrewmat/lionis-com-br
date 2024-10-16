@@ -1,0 +1,150 @@
+---
+title: Sobre cores no CSS
+published: true
+publishDate: 2023-09-08 17:02:10 -0300
+description: Saia do padrão do RGB, entenda as vantagens de notações e formatos de cor
+tags: [css, braziliandevs, webdev]
+---
+import { getMeta, getLoader , PostHeader } from '~/lib/mdx-utils';
+
+export const loader = getLoader(frontmatter);
+export const meta = getMeta(frontmatter);
+
+<PostHeader {...frontmatter} />
+
+Recentemente [vi um vídeo](https://www.youtube.com/watch?v=lDxj2hVkDPs) onde várias pessoas conversavam sobre cores. No final do vídeo, o moço Tom Scott mostrou suas habilidades de desenvolvedor mostrando que sabe traduzir um código hexadecimal `#BADBED` a sua cor equivalente:
+
+* BA é um valor alto de vermelho
+* DB é um valor mais alto ainda de verde
+* ED é um valor quase absoluto de azul
+
+Misturando essas cores, ele concluiu que a cor seria um "ciano bem pastel", o que deixou todo mundo estupefato. Isso pode parecer incrível, mas é cotidiano para algum programador frontend mais experiente. Se você quiser converter para números, também temos a notação `rgb()` que converte números de 0 a 255 para os três canais de cores: `rgb(186 219 237)`
+
+Mesmo assim, existe algo com RGB que não me agrada. Resolver ele não é intuitivo, você tem que fazer "contas" com as cores, na hora 
+de converter para uma porcentagem e na hora de misturar as cores.
+
+Computadores entendem RGB, eles foi feita pra isso, mas para humanos, o processo é cansativo, já que não é o jeito que pensamos em cores.
+
+## Entra HSL
+
+Quando vou descrever cores para pessoas, não uso notação RGB, "essa cor tem muito vermelho, e muito verde e só metade de verde". Eu geralmente falo "um amarelo claro", ou "um vermelho bem forte".
+
+Criar cores HSL é mais intuitivo porque acaba adotando uma linguagem similiar. Nela temos três argumentos para descrever a cor:
+
+* `h`: **Hue** (ou matiz) controla a cor em si. É um valor que vai de 0deg a 360deg
+* `s`: **Saturation** controla quanto da cor é colocado. 0% transforma em cinza e 100% cria uma cor saturada
+* `l`: **Lightness** controla quanto de luminosidade é inserida na cor. 10% cria uma cor bem escuro, e 90% uma cor bem clara.
+
+Pra ser sincero, não gosto muito do controle de Hue, não é muito intuitivo pensar em cores através de uma roda.
+
+![Roda de cores](https://upload.wikimedia.org/wikipedia/commons/b/bb/Linear_RGB_color_wheel.png)
+
+Mesmo assim, é fácil pegar o jeito, e depois disso não precisa fazer mais cálculos com cores.
+
+* 0deg é vermelho
+* 180deg é ciano
+* entre 0deg e 180deg tem laranja, amarelo e verde
+* entre 180deg e 360deg tem azul, rosa e lilás
+* Se eu me perder, lembro de um arco-íris
+
+Uma combinação assim não é só mais intuitiva, também tem um controle mais simples e facilita a criação de temas.
+
+```css
+:root {
+  --hue-primary: 220deg;
+  --color-primary-light: hsl(var(--hue-primary) 60% 80%);
+  --color-primary-dark: hsl(var(--hue-primary) 90% 20%);
+
+  --hue-secondary: calc(var(--hue-blue) + 120deg);
+  --color-secondary-light: hsl(var(--hue-secondary) 60% 80%);
+  --color-secondary-dark: hsl(var(--hue-secondary) 90% 20%);
+}
+```
+
+> (Eu duvido que consegue fazer isso usando notação rgb)
+
+{/* {% embed https://codesandbox.io/embed/hsl-colors-5m52sj?fontsize=14&hidenavigation=1&theme=dark %} */}
+
+## OKLCH
+
+Temos HSL, e até recentemente eu estava bem satisfeito com essa notação.
+
+Descobri recentemente sobre a notação `oklch()`. Ela resolve problemas que eu nem tinha percebido que existiam. É mais intuitiva, mais fácil de controlar, e abrange novas cores que não existem na RGB.
+
+Embora a notação seja maior, `oklch()` ainda tem três argumentos. Ignora o 'ok' no nome e considera somente o 'lch':
+
+* `l`: **Lightness** controla a luminosidade igual ao `hsl()`
+* `c`: **Chroma** controla a intensidade, diferente da saturação do `hsl()`
+* `h`: **Hue** controla a cor em si igual ao `hsl()`
+
+### Chroma vs Saturation
+
+Uma coisa que acabei aprendendo a lidar com `hsl()` é que cores de matizes diferentes tem "intensidades diferentes".
+
+Um exemplo: três cores, todas com saturação máxima de 100%.
+
+```css
+.red   { background-color: hsl(0deg 100% 50%); }
+.green { background-color: hsl(120deg 100% 50%); }
+.blue  { background-color: hsl(240deg 100% 50%); }
+```
+
+{/* {% embed https://codesandbox.io/embed/saturation-intensity-qplkjy?fontsize=14&hidenavigation=1&theme=dark %} */}
+
+Na minha experiência eu me adequei com valores de saturação diferentes para matizes diferentes. No exemplo, o texto no quadrado azul está bem menos visível do que o texto no quadrado verde.
+
+Com `oklch()`, isso não é mais necessário. Ele se restringe de forma que distribui melhor a intensidade
+
+```css
+.red   { background-color: oklch(60% 50% 30deg); }
+.green { background-color: oklch(60% 50% 150deg); }
+.blue  { background-color: oklch(60% 50% 250deg); }
+```
+
+{/* {% embed https://codesandbox.io/embed/stoic-robinson-qmqj9h?fontsize=14&hidenavigation=1&theme=dark %} */}
+
+Isso facilita bastante na hora de criar paletas de cores, já que elas são bem consistentes na faixa completa de matizes.
+
+### Cores novas e mais vivas
+
+Uma das coisas que `oklch()` traz, junto com outras notações, é a possibilidade de descrever cores em um espaço de cor mais completo.
+
+Sem entrar em muita tecnicalidade, mas por anos o padrão de espaço de cor foi o [sRGB](https://en.wikipedia.org/wiki/SRGB), um espaço de cor que funciona muito bem.
+
+Porém, mais recentemente, a Apple, com esse negócio de criar design que ela gosta, criou e adotou um espaço de cor mais completo, o [Display-P3](https://webkit.org/blog/10042/wide-gamut-color-in-css-with-display-p3/), que resolve pequenos problemas que sRGB tinham, além de aumentar o espaço de cores possíveis de serem exibidas.
+
+![Comparativo de gradientes de cores do arco-íris dos espaços sRGB e P3, o P3 é mais vivo que o sRGB](https://webkit.org/wp-content/uploads/srgb-vs-display-p3-intro.png)
+
+Com o tempo, dispositivos além da Apple começaram a suportar P3. Hoje ainda não é amplamente disponível, mas com certeza faz a diferença para monitores e celulares que são capazes de utilizar esse espaço de cor.
+
+### Gradientes com grey zones
+
+Alguns gradientes tem o problema clássico de criarem um espaço cinza na transição de cores.
+
+<figure className='mb-5 mx-auto'>
+  <img src="https://dev-to-uploads.s3.amazonaws.com/uploads/articles/uj4n5as6o2r02vfzvqo5.png" alt="Diagrama mostrando a transição de gradiente na roda de cores, onde a linha de gradiente entre o amarelo e o azul cruzam o meio da roda que tem saturação baixa"></img>
+  <figcaption>Imagem retirada de [CSS Tricks](https://css-tricks.com/the-gray-dead-zone-of-gradients/)</figcaption>
+</figure>
+
+Esse problema é comum no espaço sRGB. Como oklch() se expressa através do espaço P3, temos suavidade no gradiente, já que o gradiente se "curva" para usar mais as cores e diminuir a zona cinza.
+
+{/* {% embed https://codesandbox.io/embed/gradient-gray-dead-zone-yy548g?fontsize=14&hidenavigation=1&theme=dark %} */}
+
+## Suporte
+
+A notação `hsl()` já é segura e [pode ser utilizada](https://caniuse.com/mdn-css_types_color_hsl) em qualquer browser. Até IE9 suporta ela!
+
+A notação `oklch()` já [tem suporte](https://caniuse.com/mdn-css_types_color_oklch) de todos os browsers modernos. Safari implementou no começo de 2022, e browsers como Chrome, Edge, Opera, Firefox e Samsung Internet começaram a suportar em 2023.
+
+Infelizmente, o espaço de cor P3 precisam de suporte do hardware, o que ainda é restritivo para boa parte das pessoas. Porém, a notação `oklch()` já pode ser utilizada mesmo para dispositivos que usem sRGB.
+
+## Finalmentes
+
+Eu espero que tenha convencido você de mudar do hexadecimal/rgb clássicos para notações mais intuitivas e humanas de aplicar cores. Experimente criar cores com a ajuda da `oklch()`, e use `hsl()` para projetos em produção. Argumento não falta para mudar.
+
+## Veja mais argumentos (em inglês)
+
+* [OKLCH in CSS: why we moved from RGB and HSL (Sitnik, Turner)](https://evilmartians.com/chronicles/oklch-in-css-why-quit-rgb-hsl)
+* [Falling For Oklch: A Love Story Of Color Spaces, Gamuts, And CSS (Geoff Graham)](https://www.smashingmagazine.com/2023/08/oklch-color-spaces-gamuts-css/)
+* [Wide Gamut Color in CSS with Display-P3 (Nikita Vasilyev)](https://webkit.org/blog/10042/wide-gamut-color-in-css-with-display-p3/)
+* [OKLCH in CSS: Consistent, accessible color palettes (Cristian Diaz)](https://blog.logrocket.com/oklch-css-consistent-accessible-color-palettes/)

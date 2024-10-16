@@ -1,5 +1,8 @@
 import { Link, useLoaderData } from '@remix-run/react';
+import { format, formatDistanceToNow } from 'date-fns';
 import { Layout } from '~/components/Layout';
+import { Button } from '~/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '~/components/ui/card';
 import type { FrontmatterMeta } from '~/lib/mdx-utils';
 
 export async function loader() {
@@ -26,7 +29,7 @@ export async function loader() {
   )
     // .filter((post) => post.published === true)
     .sort((postA, postB) =>
-      new Date(postA.date) < new Date(postB.date) ? 1 : -1
+      new Date(postA.publishDate) < new Date(postB.publishDate) ? 1 : -1
     );
 
   return { posts };
@@ -52,16 +55,29 @@ export default function Index() {
   const { posts } = useLoaderData<typeof loader>();
   return (
     <Layout>
-      <ul>
-        {posts.map((post) => (
-          <li key={post.slug} className="my-5">
-            <Link to={`post/${post.slug}`} className="text-2xl">
-              <h2>{post.title}</h2>
-            </Link>
-            <summary>{post.summary}</summary>
-          </li>
-        ))}
-      </ul>
+      <div className="full-bleed-wrapper">
+        <ul>
+          {posts.map((post) => (
+            <li key={post.slug} className="my-5">
+              <Link to={`post/${post.slug}`}>
+                <Card>
+                  <CardHeader>
+                    <CardTitle>{post.title}</CardTitle>
+                    <small
+                      title={format(post.publishDate, 'dd MMM yyyy HH:mm')}
+                    >
+                      {formatDistanceToNow(post.publishDate)}
+                    </small>
+                  </CardHeader>
+                  <CardContent>
+                    <summary>{post.summary}</summary>
+                  </CardContent>
+                </Card>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </div>
     </Layout>
   );
 }

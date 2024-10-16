@@ -1,20 +1,20 @@
 ---
 title: Procurando a motivação
 published: true
+publishDate: 2023-10-07 18:51:00 -0300
 description: Uma pequena coleção de histórias pessoais sobre como entender o objetivo da tarefa ajuda a executarmos ela melhor
-tags: discuss, programming, braziliandevs
-date: 2023-10-07 18:51:00 -0300
+tags: [discuss, programming, braziliandevs]
 summary: |
   A gente começa os nossos passos seguindo as regras.
   A gente vai aprendendo, e revemos essas regras.
   No final, porque essas regras existem?
 ---
-import { getMeta, getLoader , PostHeading } from '~/lib/mdx-utils';
+import { getMeta, getLoader , PostHeader } from '~/lib/mdx-utils';
 
 export const loader = getLoader(frontmatter);
 export const meta = getMeta(frontmatter);
 
-<PostHeading {...frontmatter} />
+<PostHeader {...frontmatter} />
 
 Esse post não é sobre código. Mesmo se não souber programar, você não deve ter dificuldades em acompanhar 😄
 

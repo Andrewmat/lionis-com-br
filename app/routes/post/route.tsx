@@ -4,15 +4,10 @@ import { Outlet, useRouteError } from '@remix-run/react';
 import { MDXProvider } from '@mdx-js/react';
 import { Layout } from '~/components/Layout';
 import { components } from '~/components/post-preset';
-import syntaxHighlightDark from '~/styles/syntax/atom-one-dark.min.css?url';
-import syntaxHighlightLight from '~/styles/syntax/atom-one-light.min.css?url';
-import styles from './styles.css?url';
+import syntaxHighlightDark from '~/styles/syntax/shades-of-purple.min.css?url';
+import syntaxHighlightLight from '~/styles/syntax/intellij-light.min.css?url';
 
 export const links: LinksFunction = () => [
-  {
-    rel: 'stylesheet',
-    href: styles,
-  },
   // TODO how to dynamically load CSS
   // for now it is glitchy
   {
@@ -30,7 +25,7 @@ export const links: LinksFunction = () => [
 export default function PostPage() {
   return (
     <Layout>
-      <article className="post-wrapper mx-5 lg:mx-0">
+      <article className="full-bleed-wrapper mx-5 lg:mx-0">
         <MDXProvider components={components}>
           <Outlet />
         </MDXProvider>

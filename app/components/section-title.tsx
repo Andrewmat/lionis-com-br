@@ -10,7 +10,7 @@ import slugify from 'slugify';
 import { useToast } from '~/hooks/use-toast';
 import { Button } from './ui/button';
 
-export function Heading<AsType extends `h${1 | 2 | 3 | 4 | 5 | 6}`>({
+export function SectionTitle<AsType extends `h${1 | 2 | 3 | 4 | 5 | 6}`>({
   as,
   children,
   ...props

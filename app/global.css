@@ -6,3 +6,30 @@ body,
 #root {
   min-height: 100%;
 }
+
+/* https://www.joshwcomeau.com/css/full-bleed/ */
+.full-bleed-wrapper {
+  display: grid;
+  grid-template-columns:
+    1fr
+    min(80ch, 100%)
+    1fr;
+}
+
+.full-bleed-wrapper > * {
+  grid-column: 2;
+}
+
+.full-bleed {
+  width: 100%;
+  grid-column: 1 / 4;
+}
+
+/* https://github.com/shreshthmohan/rehype-color-chips */
+.gfm-color-chip {
+  margin-left: 0.125rem;
+  display: inline-block;
+  height: 0.625rem;
+  width: 0.625rem;
+  border: 1px solid gray;
+}
