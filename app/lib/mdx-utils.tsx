@@ -37,16 +37,20 @@ export function getLoader(frontmatter: FrontmatterMeta): LoaderFunction {
 
 export function PostHeader(props: FrontmatterMeta) {
   return (
-    <div className="mb-4">
-      <h1 className="text-4xl mb-1">{props.title}</h1>
+    <div className="mb-4 flex flex-col gap-2">
+      <h1 className="text-4xl">{props.title}</h1>
+      {props.tags && (
+        <div className="flex gap-2">
+          {props.tags.map((tag) => (
+            <Badge key={tag} variant="outline">
+              {tag}
+            </Badge>
+          ))}
+        </div>
+      )}
       <small title={format(props.publishDate, 'dd MMM yyyy HH:mm')}>
         {formatDistanceToNow(props.publishDate)}
       </small>
-      <div>
-        {props.tags.map((tag) => (
-          <Badge variant="outline">{tag}</Badge>
-        ))}
-      </div>
     </div>
   );
 }

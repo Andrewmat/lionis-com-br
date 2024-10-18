@@ -1,24 +1,15 @@
 import { useEffect } from 'react';
-import type { LinksFunction } from '@remix-run/node';
 import { Outlet, useRouteError } from '@remix-run/react';
 import { MDXProvider } from '@mdx-js/react';
 import { Layout } from '~/components/Layout';
 import { components } from '~/components/post-preset';
-import syntaxHighlightDark from '~/styles/syntax/shades-of-purple.min.css?url';
-import syntaxHighlightLight from '~/styles/syntax/intellij-light.min.css?url';
+import codeTheme from '~/styles/code-theme.css?url';
+import type { LinksFunction } from '@remix-run/node';
 
 export const links: LinksFunction = () => [
-  // TODO how to dynamically load CSS
-  // for now it is glitchy
   {
+    href: codeTheme,
     rel: 'stylesheet',
-    href: syntaxHighlightDark,
-    media: '(prefers-color-scheme: dark)',
-  },
-  {
-    rel: 'stylesheet',
-    href: syntaxHighlightLight,
-    media: '(prefers-color-scheme: light)',
   },
 ];
 

@@ -29,9 +29,8 @@ export const components: MDXComponents = {
   ul: mergeElement(<ul className="list-disc mb-5" />),
   ol: mergeElement(<ol className="list-decimal mb-5" />),
   li: mergeElement(<li className="list-outside ms-5" />),
-  strong: mergeElement(<strong className="font-extrabold" />),
   code: mergeElement(
-    <code className="inline-block px-0.5 py-0 rounded-sm [:not(pre)>&]:text-secondary-foreground [:not(pre)>&]:bg-secondary" />
+    <code className="inline-block px-0.5 py-0 rounded-sm [:not(pre)>&]:text-secondary-foreground [:not(pre)>&]:bg-secondary [pre>&]:p-4" />
   ),
   pre: mergeElement(<pre className="mb-5 md:mx-8" />),
   hr: mergeElement(<hr className="mb-4" />),
