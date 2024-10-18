@@ -5,6 +5,7 @@ html {
 body,
 #root {
   min-height: 100%;
+  --header-height: 90px;
 }
 
 /* https://www.joshwcomeau.com/css/full-bleed/ */

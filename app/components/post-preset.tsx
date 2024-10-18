@@ -21,7 +21,7 @@ export const components: MDXComponents = {
     <Link
       to={href!}
       {...mergeProps(delegatedProps, {
-        className: 'underline hover:text-accent-foreground',
+        className: 'underline text-accent-foreground',
         target: href?.startsWith('http') ? '_blank' : undefined,
       })}
     />
@@ -31,7 +31,7 @@ export const components: MDXComponents = {
   li: mergeElement(<li className="list-outside ms-5" />),
   strong: mergeElement(<strong className="font-extrabold" />),
   code: mergeElement(
-    <code className="inline-block px-0.5 py-0 rounded-sm [:not(pre)>&]:text-accent-foreground [:not(pre)>&]:bg-accent" />
+    <code className="inline-block px-0.5 py-0 rounded-sm [:not(pre)>&]:text-secondary-foreground [:not(pre)>&]:bg-secondary" />
   ),
   pre: mergeElement(<pre className="mb-5 md:mx-8" />),
   hr: mergeElement(<hr className="mb-4" />),
