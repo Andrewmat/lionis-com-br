@@ -62,7 +62,7 @@ export default function Index() {
               <Link to={`post/${post.slug}`}>
                 <Card>
                   <CardHeader>
-                    <CardTitle>{post.title}</CardTitle>
+                    <CardTitle className="text-4xl">{post.title}</CardTitle>
                     <small
                       title={format(post.publishDate, 'dd MMM yyyy HH:mm')}
                     >
