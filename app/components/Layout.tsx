@@ -15,7 +15,7 @@ export function Layout({ children }: PropsWithChildren) {
         </div>
       </header>
       <main className="py-4 px-5">{children}</main>
-      <footer className="bg-primary text-primary-foreground px-5 flex justify-between items-center">
+      <footer className="bg-secondary text-secondary-foreground px-5 flex justify-between items-center">
         <div>
           Made by{' '}
           <Button variant="link" asChild className="px-0">
@@ -43,6 +43,7 @@ function Logo() {
   );
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function LogoSquare() {
   return (
     <div className="-rotate-[25deg] bg-foreground p-2">

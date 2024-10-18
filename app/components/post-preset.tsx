@@ -30,9 +30,10 @@ export const components: MDXComponents = {
   ol: mergeElement(<ol className="list-decimal mb-5" />),
   li: mergeElement(<li className="list-outside ms-5" />),
   code: mergeElement(
-    <code className="inline-block px-0.5 py-0 rounded-sm [:not(pre)>&]:text-secondary-foreground [:not(pre)>&]:bg-secondary [pre>&]:p-4" />
+    <code className="overflow-x-auto inline-block px-0.5 py-0 rounded-sm [:not(pre)>&]:text-secondary-foreground [:not(pre)>&]:bg-secondary [pre>&]:p-4" />
   ),
-  pre: mergeElement(<pre className="mb-5 md:mx-8" />),
+  pre: mergeElement(<pre className="mb-5" />),
+  figure: mergeElement(<figure className="overflow-x-auto" />),
   hr: mergeElement(<hr className="mb-4" />),
   blockquote: mergeElement(
     <blockquote className="ps-4 pt-5 mb-5 border-l-2 border-foreground italic bg-primary/20 text-primary-foreground" />

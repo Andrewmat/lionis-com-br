@@ -16,7 +16,7 @@ export const links: LinksFunction = () => [
 export default function PostPage() {
   return (
     <Layout>
-      <article className="full-bleed-wrapper mx-5 lg:mx-0">
+      <article className="full-bleed-wrapper">
         <MDXProvider components={components}>
           <Outlet />
         </MDXProvider>
