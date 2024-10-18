@@ -26,7 +26,7 @@ export async function loader() {
       )
     )
   )
-    // .filter((post) => post.published === true)
+    .filter((post) => post.published === true)
     .sort((postA, postB) =>
       new Date(postA.publishDate) < new Date(postB.publishDate) ? 1 : -1
     );
@@ -55,13 +55,15 @@ export default function Index() {
   return (
     <Layout>
       <div className="full-bleed-wrapper">
-        <ul>
+        <ul className="flex flex-col gap-5">
           {posts.map((post) => (
-            <li key={post.slug} className="my-5">
-              <Link to={`post/${post.slug}`}>
-                <Card>
+            <li key={post.slug}>
+              <Link to={`post/${post.slug}`} className="outline-none group">
+                <Card className="border-transparent group-focus-visible:border-foreground">
                   <CardHeader>
-                    <CardTitle className="text-4xl">{post.title}</CardTitle>
+                    <CardTitle className="text-4xl group-focus-visible:underline group-hover:underline">
+                      {post.title}
+                    </CardTitle>
                     <small
                       title={format(post.publishDate, 'dd MMM yyyy HH:mm')}
                     >
