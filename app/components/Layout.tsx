@@ -36,7 +36,21 @@ export function Layout({ children }: PropsWithChildren) {
 function Logo() {
   return (
     <div className="-rotate-[25deg] bg-foreground p-2">
-      <div className="rotate-12 text-lg text-background">eu, lionis</div>
+      <div className="rotate-12 text-lg text-background font-['Logo'] hover:underline underline-offset-4">
+        eu, lionis
+      </div>
+    </div>
+  );
+}
+
+function LogoSquare() {
+  return (
+    <div className="-rotate-[25deg] bg-foreground p-2">
+      <div className="rotate-12 text-lg text-background font-['Logo'] hover:underline underline-offset-4">
+        eu,
+        <br />
+        <span className="ms-3">lionis</span>
+      </div>
     </div>
   );
 }

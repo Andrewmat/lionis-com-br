@@ -4,7 +4,7 @@
 
 html,
 body {
-  @apply bg-background;
+  @apply bg-background text-foreground;
 
   @media (prefers-color-scheme: dark) {
     color-scheme: dark;
@@ -19,10 +19,10 @@ body {
   :root {
     --background: 282 20% 95%;
     --foreground: 282 100% 25%;
-    --card: 282 15% 95%;
-    --card-foreground: 282 15% 10%;
-    --popover: 282 15% 95%;
-    --popover-foreground: 282 15% 10%;
+    --card: 282 20% 95%;
+    --card-foreground: 282 100% 25%;
+    --popover: 282 20% 95%;
+    --popover-foreground: 282 100% 25%;
     --primary: 132 80% 85%;
     --primary-foreground: 132 80% 5%;
     --secondary: 282 30% 85%;
@@ -33,7 +33,7 @@ body {
     --accent-foreground: 132 85% 15%;
     --destructive: 0 90% 95%;
     --destructive-foreground: 0 80% 35%;
-    --border: 282 100% 25%;
+    --border: 282 80% 35%;
     --input: 282 100% 25%;
     --ring: 282 100% 25%;
     --chart-1: 220 70% 50%;
@@ -49,9 +49,9 @@ body {
     --background: 282 5% 7%;
     --foreground: 282 50% 90%;
     --card: 282 5% 7%;
-    --card-foreground: 282 5% 90%;
+    --card-foreground: 282 50% 90%;
     --popover: 282 5% 7%;
-    --popover-foreground: 282 5% 90%;
+    --popover-foreground: 282 50% 90%;
     --primary: 132 90% 10%;
     --primary-foreground: 132 70% 85%;
     --secondary: 282 20% 20%;
@@ -62,7 +62,7 @@ body {
     --accent-foreground: 132 65% 85%;
     --destructive: 0 40% 25%;
     --destructive-foreground: 0 10% 95%;
-    --border: 282 50% 90%;
+    --border: 282 50% 85%;
     --input: 282 50% 90%;
     --ring: 282 50% 90%;
     --chart-1: 220 70% 50%;

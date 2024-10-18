@@ -21,7 +21,7 @@ export const components: MDXComponents = {
     <Link
       to={href!}
       {...mergeProps(delegatedProps, {
-        className: 'underline text-accent-foreground',
+        className: 'underline hover:text-accent-foreground',
         target: href?.startsWith('http') ? '_blank' : undefined,
       })}
     />
@@ -36,7 +36,7 @@ export const components: MDXComponents = {
   pre: mergeElement(<pre className="mb-5 md:mx-8" />),
   hr: mergeElement(<hr className="mb-4" />),
   blockquote: mergeElement(
-    <blockquote className="ps-4 pt-5 mb-5 border-l-2 border-foreground italic bg-white/5" />
+    <blockquote className="ps-4 pt-5 mb-5 border-l-2 border-foreground italic bg-primary/20 text-primary-foreground" />
   ),
   img: mergeElement(<img className="mx-auto" />),
 };

@@ -1,6 +1,7 @@
 import type { LoaderFunction } from '@remix-run/node';
 import type { MetaDescriptor } from '@remix-run/react';
 import { format, formatDistanceToNow } from 'date-fns';
+import { Badge } from '~/components/ui/badge';
 
 export type FrontmatterMeta = {
   title: string;
@@ -41,6 +42,11 @@ export function PostHeader(props: FrontmatterMeta) {
       <small title={format(props.publishDate, 'dd MMM yyyy HH:mm')}>
         {formatDistanceToNow(props.publishDate)}
       </small>
+      <div>
+        {props.tags.map((tag) => (
+          <Badge variant="outline">{tag}</Badge>
+        ))}
+      </div>
     </div>
   );
 }
