@@ -1,77 +1,49 @@
 ---
-title: hello-world.mdx
+title: Hello World
 description: Um post para falar sobre como fiz esse site
-published: false
-publishDate: 2024-10-07 18:51:00 -0300
+published: true
+publishDate: 2024-10-29 20:11:00 -0300
 tags: [tech]
 summary: |
-  This is a test
-  of a multiline summary
+  Sobre posts 
 ---
 import { getMeta, getLoader , PostHeader } from '~/lib/mdx-utils';
-import { Button } from '~/components/ui/button'
-import { Tabs, TabsList, TabsTrigger, TabsContent } from '~/components/ui/tabs';
-import { TrashIcon } from 'lucide-react';
+import { Counter } from './counter'
 
 export const loader = getLoader(frontmatter);
 export const meta = getMeta(frontmatter);
 
 <PostHeader {...frontmatter} />
 
-This is a test document. It has **bold** and _italic_ fonts, also `code` formatting\
-and:
+Esse é um post Hello World, explicando brevemente sobre como esse site foi feito.
 
-- lists
-- with no
-- order
+## Markdown
 
-## And headings too
+Eu quero fazer posts nesse site de uma forma que eu entenda, e eu entendo de frontend. Então os posts são feitos em markdown num github.
 
-1. also
-2. ordered
-3. lists
+Me inspirei bastante no [dev.to](https://dev.to/), que usa [front matter](https://jekyllrb.com/docs/front-matter/) pros posts.
 
-There are also [links](https://github.com) and [internal links](/).
+Você pode ver o post aqui no [Github](https://github.com/Andrewmat/lionis-com-br/blob/main/app/routes/post.hello-world/route.mdx)
 
-<div className='flex gap-2'>
-<Button type="button" className='mb-4' variant="default">Default buttons</Button>
-<Button type="button" className='mb-4' variant="secondary">And also secondaries</Button>
-<Button type="button" className='mb-4' variant="destructive">
-  <TrashIcon />
-</Button>
-</div>
+## MDX
 
-<div>
-  <Tabs defaultValue='first'>
-    <TabsList className='flex'>
-      <TabsTrigger value="first" className='flex-1'>And also</TabsTrigger>
-      <TabsTrigger value="second" className='flex-1'>tabs</TabsTrigger>
-    </TabsList>
-    <TabsContent value="first">
-      Fully-functional...
-    </TabsContent>
-    <TabsContent value="second">
-      ...tabs for you
-    </TabsContent>
-  </Tabs>
-</div>
+Olha pra esse `<Counter/>`. Ele funciona de verdade.
 
-Temos textos <span className="inline-block bg-muted text-muted-foreground mb-4 rounded-lg p-2">mutado</span> também
 
-```jsx
-function itAlso(has) {
-  return <Code support />;
-}
-```
+<Counter className="inline-block w-min" />
 
-```tsx
-function itAlso(has: Props) {
-  return <Code support />;
-}
-```
+Geralmente Markdown não tem suporte a essas partes mais dinâmicas, então peguei [MDX](https://mdxjs.com/), uma tecnologia que junta Markdown com componentes React. Agora posso dar exemplos mais mão-na-massa.
 
-```ts
-function itAlso(has: Props) {
-  let value: number = 1;
-}
-```
+## Remix
+
+Só por conveniência, peguei Remix porque estou confortável com ele. Pensando bem, acho que eu deveria ter experimentado Gatsby ou Next.js, mas Remix já tem uma [RFC](https://github.com/remix-run/remix/discussions/2853) com intenção de gerar build estático.
+
+Por outro lado, é ótimo que ele seja um plugin do [Vite](https://vite.dev/), isso ajuda a ficar tudo centralizado num único bundler.
+
+## shadcn/ui
+
+Ótima lib pra componentes pré-feitos. Vários dos componentes são na base do [Radix](https://www.radix-ui.com/primitives) e a estilização feita em [Tailwind](https://tailwindcss.com/). A lindeza é que não é um pacote externo, mas um comando que gera arquivos dentro do seu projeto, dando controle pra você fazer do seu jeito, ao mesmo tempo evitando dificuldades em import de css de pacotes externos.
+
+## Enfim
+
+Não tenho muito a falar, mas devo começar a postar por aqui mais. Esse é o primeiro post né. Se quiser saber mais sobre mim, vai no [/eu](/eu)

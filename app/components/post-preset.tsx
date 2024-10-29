@@ -16,7 +16,7 @@ export const components: MDXComponents = {
   h2: mergeElement(<SectionTitle as="h2" className="text-2xl" />),
   h3: mergeElement(<SectionTitle as="h3" className="text-xl" />),
   h4: mergeElement(<SectionTitle as="h4" className="text-lg" />),
-  p: mergeElement(<p className="mb-5 leading-7" />),
+  p: mergeElement(<p className="leading-7" />),
   a: ({ href, ...delegatedProps }) => (
     <Link
       to={href!}
@@ -26,17 +26,16 @@ export const components: MDXComponents = {
       })}
     />
   ),
-  ul: mergeElement(<ul className="list-disc mb-5" />),
-  ol: mergeElement(<ol className="list-decimal mb-5" />),
+  ul: mergeElement(<ul className="list-disc" />),
+  ol: mergeElement(<ol className="list-decimal" />),
   li: mergeElement(<li className="list-outside ms-5" />),
   code: mergeElement(
-    <code className="overflow-x-auto inline-block px-0.5 py-0 rounded-sm [:not(pre)>&]:text-secondary-foreground [:not(pre)>&]:bg-secondary [pre>&]:p-4" />
+    <code className="overflow-x-auto inline px-0.5 py-0 rounded-sm [:not(pre)>&]:text-secondary-foreground [:not(pre)>&]:bg-secondary [pre>&]:p-4" />
   ),
-  pre: mergeElement(<pre className="mb-5" />),
   figure: mergeElement(<figure className="overflow-x-auto" />),
   hr: mergeElement(<hr className="mb-4" />),
   blockquote: mergeElement(
-    <blockquote className="ps-4 pt-5 mb-5 border-l-2 border-foreground italic bg-primary/20 text-primary-foreground" />
+    <blockquote className="ps-4 pt-5  border-l-2 border-foreground italic bg-primary/20 text-primary-foreground" />
   ),
   img: mergeElement(<img className="mx-auto" />),
 };
