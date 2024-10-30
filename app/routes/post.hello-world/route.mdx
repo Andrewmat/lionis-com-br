@@ -5,34 +5,46 @@ published: true
 publishDate: 2024-10-29 20:11:00 -0300
 tags: [tech]
 summary: |
-  Sobre posts 
+  Como lionis.com.br foi construído
 ---
+import { Link } from '@remix-run/react';
 import { getMeta, getLoader , PostHeader } from '~/lib/mdx-utils';
-import { Counter } from './counter'
+import { Badge } from '~/components/ui/badge';
+import { Counter } from './counter';
 
 export const loader = getLoader(frontmatter);
 export const meta = getMeta(frontmatter);
 
 <PostHeader {...frontmatter} />
 
+Olá, eu sou o André, mas pode me chamar de [lionis](/eu).
+
 Esse é um post Hello World, explicando brevemente sobre como esse site foi feito.
 
-## Markdown
+## Front Matter
 
 Eu quero fazer posts nesse site de uma forma que eu entenda, e eu entendo de frontend. Então os posts são feitos em markdown num github.
 
-Me inspirei bastante no [dev.to](https://dev.to/), que usa [front matter](https://jekyllrb.com/docs/front-matter/) pros posts.
+Me inspirei bastante no [dev.to](https://dev.to/), que usa [front matter](https://jekyllrb.com/docs/front-matter/) pra editar posts, incluindo metadata como dia de publicação, tags, etc.
 
-Você pode ver o post aqui no [Github](https://github.com/Andrewmat/lionis-com-br/blob/main/app/routes/post.hello-world/route.mdx)
+A melhor parte é que isso tudo está no GitHub, então já tem versionamento de fábrica, além de facilitar modificações pelo público. Você pode ver esse post aqui no [Github](https://github.com/Andrewmat/lionis-com-br/blob/main/app/routes/post.hello-world/route.mdx)
 
 ## MDX
 
-Olha pra esse `<Counter/>`. Ele funciona de verdade.
+Olha pra esse `<Counter/>`. Ele funciona de verdade! 😛
 
 
 <Counter className="inline-block w-min" />
 
-Geralmente Markdown não tem suporte a essas partes mais dinâmicas, então peguei [MDX](https://mdxjs.com/), uma tecnologia que junta Markdown com componentes React. Agora posso dar exemplos mais mão-na-massa.
+Geralmente Markdown não tem suporte a essas partes mais dinâmicas, então usei [MDX](https://mdxjs.com/), uma família de pacotes que junta Markdown com componentes React. Agora posso dar exemplos mais mão-na-massa.
+
+Isso também ajuda a criar algumas coisinhas mais customizadas, como chips de cor (`red` / `green` /`blue`) e sintaxe no código
+
+```tsx
+function Component(): JSX.Element {
+  return <div />
+}
+```
 
 ## Remix
 
@@ -46,4 +58,21 @@ Por outro lado, é ótimo que ele seja um plugin do [Vite](https://vite.dev/), i
 
 ## Enfim
 
-Não tenho muito a falar, mas devo começar a postar por aqui mais. Esse é o primeiro post né. Se quiser saber mais sobre mim, vai no [/eu](/eu)
+Primeiro post né, não tenho muito a falar. Fica a vontade pra mandar mensagem pelas redes sociais
+
+<div className="flex gap-2">
+  <Link
+    to="https://bsky.app/profile/lionis.com.br"
+    target="_blank"
+    rel="noreferrer"
+  >
+    <Badge>bluesky</Badge>
+  </Link>
+  <Link
+    to="https://www.threads.net/@andre.lionis"
+    target="_blank"
+    rel="noreferrer"
+  >
+    <Badge>threads</Badge>
+  </Link>
+</div>

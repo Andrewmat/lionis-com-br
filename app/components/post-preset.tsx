@@ -16,7 +16,6 @@ export const components: MDXComponents = {
   h2: mergeElement(<SectionTitle as="h2" className="text-2xl" />),
   h3: mergeElement(<SectionTitle as="h3" className="text-xl" />),
   h4: mergeElement(<SectionTitle as="h4" className="text-lg" />),
-  p: mergeElement(<p className="leading-7" />),
   a: ({ href, ...delegatedProps }) => (
     <Link
       to={href!}
@@ -30,7 +29,7 @@ export const components: MDXComponents = {
   ol: mergeElement(<ol className="list-decimal" />),
   li: mergeElement(<li className="list-outside ms-5" />),
   code: mergeElement(
-    <code className="overflow-x-auto inline px-0.5 py-0 rounded-sm [:not(pre)>&]:text-secondary-foreground [:not(pre)>&]:bg-secondary [pre>&]:p-4" />
+    <code className="overflow-x-auto inline px-0.5 py-0 rounded-sm [:not(pre)>&]:text-secondary-foreground [:not(pre)>&]:bg-secondary [pre>&]:p-4 leading-6" />
   ),
   figure: mergeElement(<figure className="overflow-x-auto" />),
   hr: mergeElement(<hr className="mb-4" />),

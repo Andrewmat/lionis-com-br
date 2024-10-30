@@ -1,0 +1,40 @@
+.vars {
+  --github: hsl(217.5 80% 2%);
+  --github-focus: hsl(217.5 80% 16%);
+  --github-foreground: hsl(210 66.7% 96.5%);
+  --github-foreground-focus: hsl(210 66.7% 100%);
+
+  /* hsl(0 0% 98%) */
+
+  --threads-light: hsl(0 0 98%);
+  --threads-light-focus: white;
+  --threads-dark: hsl(0 0 17%);
+  --threads-dark-focus: hsl(0 0 0%);
+
+  --threads: hsl(0 0 0%);
+  --threads-focus: hsl(0 0 17%);
+  --threads-foreground: hsl(0 0 98%);
+  --threads-foreground-focus: hsl(0 0 100%);
+
+  --bsky: hsl(208 100% 35%);
+  --bsky-focus: hsl(208 100% 50%);
+  --bsky-foreground: hsl(0 0 100%);
+  --bsky-foreground-focus: hsl(0 0 100%);
+}
+
+:global(html.dark) .vars {
+  --github: hsl(210 66.7% 96.5%);
+  --github-focus: hsl(210 66.7% 100%);
+  --github-foreground: hsl(217.5 80% 2%);
+  --github-foreground-focus: hsl(217.5 80% 16%);
+
+  --threads: hsl(0 0 98%);
+  --threads-focus: hsl(0 0 100%);
+  --threads-foreground: hsl(0 0 0%);
+  --threads-foreground-focus: hsl(0 0 17%);
+
+  --bsky: hsl(208 100% 35%);
+  --bsky-focus: hsl(208 100% 50%);
+  --bsky-foreground: hsl(0 0 100%);
+  --bsky-foreground-focus: hsl(0 0 100%);
+}

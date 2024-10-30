@@ -11,6 +11,10 @@ export function Layout({ children }: PropsWithChildren) {
           <Link to="/">
             <Logo />
           </Link>
+
+          <Button asChild variant="link" className="ms-auto">
+            <Link to="/eu">Sobre mim</Link>
+          </Button>
           <ModeToggle />
         </div>
       </header>
@@ -38,19 +42,6 @@ function Logo() {
     <div className="-rotate-[25deg] bg-foreground p-2">
       <div className="rotate-12 text-lg text-background font-['Logo'] hover:underline underline-offset-4">
         eu, lionis
-      </div>
-    </div>
-  );
-}
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-function LogoSquare() {
-  return (
-    <div className="-rotate-[25deg] bg-foreground p-2">
-      <div className="rotate-12 text-lg text-background font-['Logo'] hover:underline underline-offset-4">
-        eu,
-        <br />
-        <span className="ms-3">lionis</span>
       </div>
     </div>
   );
