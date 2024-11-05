@@ -7,7 +7,7 @@ export function Layout({ children }: PropsWithChildren) {
   return (
     <div className="grid min-h-dvh grid-rows-[var(--header-height)_1fr_80px]">
       <header className="px-5 flex items-center sticky top-0 backdrop-blur-md">
-        <div className="flex w-full justify-between items-center">
+        <div className="flex w-full justify-between items-center max-w-[80ch] mx-auto">
           <Link to="/">
             <Logo />
           </Link>
