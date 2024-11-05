@@ -7,6 +7,7 @@ import remarkFrontmatter from 'remark-frontmatter';
 import { rehypePrettyCode } from 'rehype-pretty-code';
 import remarkMdxFrontmatter from 'remark-mdx-frontmatter';
 import rehypeColorChips from 'rehype-color-chips';
+import { netlifyPlugin } from '@netlify/remix-adapter/plugin';
 
 const mdxConfig = mdx({
   remarkPlugins: [remarkFrontmatter, remarkMdxFrontmatter],
@@ -38,6 +39,7 @@ const viteConfig = defineConfig({
         v3_throwAbortReason: true,
       },
     }),
+    netlifyPlugin(),
     tsconfigPaths(),
   ],
   resolve: {
