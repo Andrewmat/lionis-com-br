@@ -1,5 +1,6 @@
 import type { LoaderFunction } from '@remix-run/node';
 import type { MetaDescriptor } from '@remix-run/react';
+import { ErrorBoundary } from 'react-error-boundary';
 import { format, formatDistanceToNow } from 'date-fns';
 import { Badge } from '~/components/ui/badge';
 
@@ -48,9 +49,15 @@ export function PostHeader(props: FrontmatterMeta) {
           ))}
         </div>
       )}
-      <small title={format(props.publishDate, 'dd MMM yyyy HH:mm')}>
-        {formatDistanceToNow(props.publishDate)}
+      <small>
+        <DateFormat date={Number(props.publishDate)} />
       </small>
     </div>
   );
+}
+
+function DateFormat({ date }: { date: number }) {
+  const absolute = format(date, 'dd MMM yyyy HH:mm');
+  const relative = formatDistanceToNow(date, { addSuffix: true });
+  return <span title={absolute}>{relative}</span>;
 }

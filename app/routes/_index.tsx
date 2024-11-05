@@ -1,5 +1,6 @@
 import { Link, useLoaderData } from '@remix-run/react';
 import { format, formatDistanceToNow } from 'date-fns';
+import { DateFormat } from '~/components/date-format';
 import { Layout } from '~/components/Layout';
 import { Card, CardContent, CardHeader, CardTitle } from '~/components/ui/card';
 import type { FrontmatterMeta } from '~/lib/mdx-utils';
@@ -64,10 +65,8 @@ export default function Index() {
                     <CardTitle className="text-4xl group-focus-visible:underline group-hover:underline">
                       {post.title}
                     </CardTitle>
-                    <small
-                      title={format(post.publishDate, 'dd MMM yyyy HH:mm')}
-                    >
-                      {formatDistanceToNow(post.publishDate)}
+                    <small>
+                      <DateFormat date={Number(post.publishDate)} />
                     </small>
                   </CardHeader>
                   <CardContent>
