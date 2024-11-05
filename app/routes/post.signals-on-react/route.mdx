@@ -1,0 +1,133 @@
+---
+title: Signals no React
+description: React com um gostinho de Solid/Svelte
+published: false
+publishDate: 2024-11-04 23:09:00 -0300
+# updateDate:
+tags: [tech, react, ecmascript]
+summary: |
+  React com um gostinho de Solid/Svelte
+---
+
+import { Link } from '@remix-run/react';
+import { GitHubLogoIcon } from '@radix-ui/react-icons';
+import { getMeta, getLoader , PostHeader } from '~/lib/mdx-utils';
+import { Button } from '~/components/ui/button';
+import { Badge } from '~/components/ui/badge';
+
+export const loader = getLoader(frontmatter);
+export const meta = getMeta(frontmatter);
+
+<PostHeader {...frontmatter} />
+
+Solid faz um tempo que chegou com a bomba toda, revolucionando os hooks do React com Signals
+
+```ts
+// No React
+function Component() {
+  const [first, setFirst] = useState("JSON");
+  const [last, setLast] = useState("Bourne");
+
+  useEffect(() => {
+    console.log(`${first} ${last}`);
+  }, [first, last]);
+  // ...
+}
+
+// No Solid
+const [first, setFirst] = createSignal("JSON");
+const [last, setLast] = createSignal("Bourne");
+
+createEffect(() => console.log(`${first()} ${last()}`));
+```
+
+Duas diferenças gritantes:
+* Array de dependências não existem
+* State não é vinculado ao render
+
+Svelte também queria isso, então Svelte 5 está atualizando pra usar "runes", bem no estilo do Solid
+
+```ts
+let first = $state("JSON")
+let last = $state("Bourne")
+
+$effect(() => {
+  console.log(`${first} ${last}`)
+})
+```
+
+## TC39 proposal
+
+[Fizeram uma proposta](https://github.com/tc39/proposal-signals) para que signals fossem incluídos no js. Essa é uma proposta *bem* nova, que está looonge de acontecer, se acontecer. Mas independente, existe uma vontade aí.
+
+A proposta adiciona um namespace global `Signal` com uma API expondo tudo que é necessário:
+
+```ts
+declare namespace Signal {
+  // state com get/set
+  class State<T> implements Signal<T> {
+    constructor(initialState: T)
+    get(): T;
+    set(t: T): void;
+  }
+
+  // valor computado pelos states
+  class Computed<T> implements Signal<T> {
+    constructor(cb: (this: Computed<T>) => T);
+    get(): T;
+  }
+
+  // isso aqui ficaria escondido, só sendo usado por bibliotecas e frameworks
+  namespace subtle {
+    class Watcher {
+      constructor(notify: (this: Watcher) => void);
+      watch(...s: Signal[])
+      unwatch(...s: Signal[])
+    }
+  }
+}
+interface Signal<T> {
+  get(): T;
+}
+```
+
+A ideia é oferecer isso para outras ferramentas usarem internamente, dessa forma temos como melhorar performance de uma forma que eles não tem como, além de possibilitar uma camada de padronização entre as diferentes ferramentas.
+
+## React
+
+React é radicalmente diferente, ele não renderiza componentes da mesma forma que outros frameworks.
+
+Outros renderizam somente uma vez, fazendo uma ligação direta entre state-UI para UI atualizar. Já React rerenderiza cada componente toda vez que o state é atualizado, recomputando toda a árvore de componentes. Por conta disso que React não implementa signals, é uma ferramenta que não se adequa a esse padrão de renderização.
+
+Dito isso, fiz uns experimentos para criar componentes que respondem a signals e effects
+
+```tsx
+const count = new Signal.State(0)
+function IncrementButton() {
+  // um hook para sinalizar (entendeu?!) o render do React
+  useStandaloneRender(count);
+
+  // um effect que não precisa declarar dependências
+  useSignalEffect(() => {
+    console.log(`Count: ${count.get()}`)
+  })
+
+  return (
+    <Button
+      onClick={() => count.set(count.get() + 1)}
+    >
+      Count {count.get()}
+    </Button>
+  )
+}
+```
+
+O código está disponível no meu github, se quiser ver: 
+
+<div>
+  <Button asChild className='inline-flex gap-2'>
+    <Link to="https://github.com/Andrewmat/react-signals" target="_blank"
+      ><GitHubLogoIcon /> Andrewmat/react-signals</
+    Link>
+  </Button>
+</div>

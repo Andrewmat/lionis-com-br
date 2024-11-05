@@ -16,7 +16,7 @@ export type FrontmatterMeta = {
 /** transforms mdx frontmatter metadata to remix metadata */
 export function getMeta(frontmatter: FrontmatterMeta): MetaDescriptor[] {
   return [
-    { title: frontmatter.title },
+    { title: `${frontmatter.title} | Eu, Lionis` },
     { description: frontmatter.description },
   ];
 }
