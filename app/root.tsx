@@ -17,11 +17,12 @@ import {
   type Theme,
 } from 'remix-themes';
 import { themeSessionResolver } from './theme.server';
-import './tailwind.css';
-import './global.css';
 import { Toaster } from './components/ui/toaster';
 import { setDefaultOptions } from 'date-fns';
 import { ptBR } from 'date-fns/locale/pt-BR';
+import logoUrl from './images/logo.svg?url';
+import './tailwind.css';
+import './global.css';
 
 export const meta: MetaFunction = () => [
   {
@@ -39,6 +40,11 @@ export const links: LinksFunction = () => [
   {
     rel: 'stylesheet',
     href: 'https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap',
+  },
+  {
+    rel: 'icon',
+    type: 'image/svg+xml',
+    href: logoUrl,
   },
 ];
 

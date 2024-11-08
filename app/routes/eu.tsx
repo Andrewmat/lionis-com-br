@@ -1,5 +1,5 @@
 import { Link } from '@remix-run/react';
-import { Layout } from '~/components/Layout';
+import { Layout } from '~/components/layout';
 import { Badge } from '~/components/ui/badge';
 import { cn } from '~/lib/utils';
 import photoUrl from '~/images/lionis-profile.jpg?url';
@@ -24,7 +24,7 @@ export default function EuPage() {
           </p>
           <p>
             da vida, tenho uma doguinha chamada tirissa, sou uma pessoa ansiosa,
-            e quero ser um saldo positivo no mundo.
+            e quero ser um saldo positivo no mundo
           </p>
           <p>
             gosto de jogos single player, jogos de tabuleiro, cubos mágicos, e

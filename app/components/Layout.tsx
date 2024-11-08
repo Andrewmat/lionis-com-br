@@ -2,6 +2,7 @@ import type { PropsWithChildren } from 'react';
 import { ModeToggle } from './mode-toggle';
 import { Link } from '@remix-run/react';
 import { Button } from './ui/button';
+import logo from '../images/logo.svg?url';
 
 export function Layout({ children }: PropsWithChildren) {
   return (
@@ -9,7 +10,7 @@ export function Layout({ children }: PropsWithChildren) {
       <header className="px-5 flex items-center sticky top-0 backdrop-blur-md">
         <div className="flex w-full justify-between items-center max-w-[80ch] mx-auto">
           <Link to="/">
-            <Logo />
+            <img src={logo} alt="" height="60" width="60" />
           </Link>
 
           <Button asChild variant="link" className="ms-auto">
@@ -33,16 +34,6 @@ export function Layout({ children }: PropsWithChildren) {
           </Button>
         </div>
       </footer>
-    </div>
-  );
-}
-
-function Logo() {
-  return (
-    <div className="-rotate-[25deg] bg-foreground p-2">
-      <div className="rotate-12 text-lg text-background font-['Logo'] hover:underline underline-offset-4">
-        eu, lionis
-      </div>
     </div>
   );
 }
