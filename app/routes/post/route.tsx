@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { Link, Outlet, useRouteError } from '@remix-run/react';
 import { MDXProvider } from '@mdx-js/react';
-import { Layout } from '~/components/layout';
+import { Layout } from '~/components/main-layout';
 import { components } from '~/components/post-preset';
 import codeTheme from '~/styles/code-theme.css?url';
 import { CopyIcon, Frown } from 'lucide-react';

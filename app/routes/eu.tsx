@@ -1,5 +1,5 @@
 import { Link } from '@remix-run/react';
-import { Layout } from '~/components/layout';
+import { Layout } from '~/components/main-layout';
 import { Badge } from '~/components/ui/badge';
 import { cn } from '~/lib/utils';
 import photoUrl from '~/images/lionis-profile.jpg?url';

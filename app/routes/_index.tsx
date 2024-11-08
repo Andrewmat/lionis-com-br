@@ -1,7 +1,6 @@
 import { Link, useLoaderData } from '@remix-run/react';
-import { format, formatDistanceToNow } from 'date-fns';
 import { DateFormat } from '~/components/date-format';
-import { Layout } from '~/components/layout';
+import { Layout } from '~/components/main-layout';
 import { Card, CardContent, CardHeader, CardTitle } from '~/components/ui/card';
 import type { FrontmatterMeta } from '~/lib/mdx-utils';
 
