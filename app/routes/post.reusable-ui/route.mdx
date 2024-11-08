@@ -1,0 +1,170 @@
+---
+title: UI reutilizável
+description: Dicas úteis para reutilizar componentes de interface
+published: true
+publishDate: 1720005480000
+#updateDate: 1730769780000
+tags: [ui, design system]
+summary: |
+  import Button from '~/components/Button'
+---
+import { Link } from '@remix-run/react';
+import { getMeta, getLoader , PostHeader } from '~/lib/mdx-utils';
+import { Badge } from '~/components/ui/badge';
+
+export const loader = getLoader(frontmatter);
+export const meta = getMeta(frontmatter);
+
+<PostHeader {...frontmatter} />
+
+Basicamente todo mundo que conheço acaba criando componentes reutilizáveis para reaproveitar o trabalho feito. Essa é uma abstração enganosamente simples: é fácil criar um Button, mas é surpreendentemente difícil conseguir reutilizar ele em todos os casos de uso em um projeto.
+
+Eu aprendi algumas coisas com o passar dos anos, e vejo que várias pessoas acabam metendo o pé na jaca sem perceber. Quero compartilhar algumas dicas para evitar que algumas jacas sejam pisadas.
+
+> Tenho um viés de React mas tudo pode ser aplicado em outros contextos, desde que tenha componentização da UI.
+
+## 1. Evite margens
+
+Colocar margens no seu componente acaba quebrando a expectativa de reuso do componente. Espaçamento é algo importante, e seu componente não conhece onde vai ser aplicado.
+
+Ao invés disso, deixe a responsabilidade de espaçamento para o pai que contém os componentes. É possível que ele utilize uma forma nova para gerenciar espaçamentos, como paddings e gaps.
+
+Existem várias conversas [¹](https://markus.oberlehner.net/blog/css-the-spacing-between-elements-should-be-determined-by-the-parent-element/) [²](https://mxstbr.com/thoughts/margin) [³](https://youtu.be/jnV1u67_yVg?si=pTHh4k06pMdu6WXU&t=582) sobre como deve ser criado espaçamentos nos componentes. Mas geralmente a conclusão é não colocar espaçamento externo. É mais confiável que seu componente pai lide com margens.
+
+E falando no componente pai...
+
+## 2. Se inspire em props HTML
+
+É importante que componentes sejam utilizados de uma forma esperada. Utilizar uma interface que todo mundo conhece ajuda nisso, e os atributos HTML são uma interface conhecida.
+
+Caso queira inserir uma margem no componente, ao invés de criar uma prop dedicada à margem seu componente pode fazer como uma `div` genérica e aceitar estilos e classes como prop. O componente pai vai ter o contexto e o controle para estender seu componente para casos não esperados.
+
+"Mas esse padrão é muito comum no projeto, vou ter que declarar sempre no pai?". Algumas props podem ser colocadas **a mais** com as props tradicionais ainda tendo destaque. Geralmente é uma prop `variant`, `size`, ou similar. Recomendo dar uma olhada em libs como [CVA](https://cva.style/docs) ou [vanilla-extract](https://vanilla-extract.style/documentation/api/style-variants/) pra gerenciar essas props de forma escalável.
+
+Se a prop tiver um nome padrão do HTML ela também dispensa documentação. Para devs novos é mais fácil aprender, e para pessoas experientes já tem uma expectativa e isso aumenta a produtividade.
+
+E isso inclui não só o nome de cada prop mas também o valor. Evite criar um contrato muito inovador na prop, como enums e objetos. Ao invés disso, as strings clássicas e JSX conseguem facilitar o uso.
+
+E falando em JSX...
+
+## 3. Componhe componentes
+
+Não tente criar componentes com muita estrutura. Crie componentes atômicos que sejam fáceis de controlar e reutilizar, e ao invés de colocar props para pedaços de UI, use JSX.
+
+Por exemplo, já fiz (e vi) props espalhadas no componente:
+
+```jsx
+<IconButton
+  icon="success"
+  iconSize="16px"
+  iconColor="black"
+  iconPosition="end"
+>Clique Aqui</Button>
+```
+
+Essas props removem o controle de quem vai utilizar seu componente. Caso precise de customização, a pessoa vai ter que modificar o IconButton, o que raramente é uma boa ideia.
+
+Caso você separe as responsabilidades e suporte children, o código vai ter uma estrutura clara e quem o utilizar vai ter mais controle do que querem fazer:
+
+```jsx
+<Button>
+  Clique aqui
+  <SuccessIcon className="icon" />
+</Button>
+<style>
+  .icon {
+    height: 16px;
+    width: 16px;
+    color: black;
+  }
+</style>
+```
+
+Com o tempo, alguns componentes complexos podem ser estruturados mas sempre com base nesses componentes mais simples. Novas estruturas vão ser criadas com base nesses componentes atômicos, mesmo assim não esconda eles por trás dessas estruturas.
+
+## 4. Utilize bibliotecas headless
+
+Temos *muitos* padrões de UI que hoje o HTML não suporta nativamente e que devs precisam implementar do zero. Um exemplo clássico é o componente de switch. Ele é parecido com o checkbox, mas tanto seu visual quanto sua interação tem suas peculiaridades que diferem do checkbox padrão do HTML.
+
+![Componente switch de exemplo, com a label "airplane mode" e a posição de desligado](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/2a4rnivst1nbhoucgf1l.png)
+
+Você cria um switch do zero. É um exercício legal e você faz um bom trabalho. Mas é provável  que você não lidou corretamente com a navegação por teclado e leitor de tela do componente.
+
+Você lê a [especificação no WAI-ARIA](https://www.w3.org/WAI/ARIA/apg/patterns/switch/) e implementa de acordo com ela. Mas agora o código ficou tão complexo que todo o resto do time tem dificuldades para acompanhar o código, e o único que consegue mexer nele é você. Se outra pessoa mexe no `<Switch />` ela fica insegura sem saber se quebrou algo.
+
+O projeto tem dezenas de componente reutilizáveis cada um trazendo essa dor. Conforme cresce fica mais rápido fazer um componente do zero do que modificar o que já existe. Seu componente reutilizável acaba não reutilizado.
+
+Bibliotecas de componentes pré-feitos vieram pra facilitar esse trabalho. Hoje existem muitas bibliotecas sem estilos, chamadas de headless UI, por exemplo [React Aria](https://react-spectrum.adobe.com/react-aria/components.html), [Radix](https://www.radix-ui.com/primitives) e [Headless UI](https://headlessui.com/). Elas implementam o comportamento esperado e você implementa o estilo.
+
+Se preferir, tem como utilizar bibliotecas estilizadas. Eu não tive muita oportunidade de utilizar, mas conheço as populares [Ant Design](https://ant.design/components/overview), [Material UI](https://mui.com/material-ui/all-components/) e [Chakra UI](https://v2.chakra-ui.com/docs/components).
+
+A beleza de utilizar componentes pré-prontos é que você cria mais confiança que a página esteja acessível, sem a necessidade de muito código para manter.
+
+## 5. Evite dependências externas
+
+Os primeiros componentes reutilizáveis que fiz foram inputs. Como o padrão do projeto era utilizar [Formik](https://formik.org/), criei os inputs integrados ao Formik.
+
+Isso parecia uma decisão acertada na época. Mas conforme o projeto foi crescendo tinham casos que não se alinhavam com essa expectativa, e vários dos inputs não precisavam do Formik. Isso adicionava uma fricção desnecessária cada vez mais difícil de lidar, e dificultou a migração para bibliotecas alternativas ao Formik.
+
+Se seu componente é realmente reutilizável, ele não deve ter expectativas do seu contexto. Quanto mais ele sabe for livre do contexto, mais reutilizável ele é.
+
+Podemos estender para qualquer lógica externa ao componente. Gerenciamento de estado (redux), temas (styled components), validações (react-hook-form), layout (flex/grid), e outras injeções de dependências. Toda as integrações devem ser injetadas por props para não engessar seu componente.
+
+## Extra: 6. Migração
+
+Talvez você fique inspirado agora, mas é possível que seu projeto já tenha UI reutilizável. Mudar esses componentes que têm seu uso generalizado é uma tarefa complicada, e isso desencoraja a mudança para um código melhor.
+
+Não desista da mudança. Dê um passo de cada vez:
+
+* Traga a ideia para o seu time. Faça provas de conceito, mostre o valor das mudanças, e evite fazer mudanças que as pessoas não querem fazer. Lembre-se que o código é feito para os humanos.
+* Tente adaptar ao máximo com o código que já existe. Algumas mudanças adicionam muito valor ao projeto, e outras mudanças não tem tanto impacto. Escolha seu foco pra facilitar o uso.
+* Pense em um plano de migração. É importante que todos do time estejam alinhados. Adicione o código novo, ajude pessoas a utilizá-lo, depreque código antigo, e de pouco em pouco remova o código antigo da sua base.
+
+## Juntando tudo
+
+Para terminar, um exemplo de um `<Button />` básico.
+
+```tsx
+import React, {
+  ComponentPropsWithoutRef,
+  forwardRef
+} from 'react'
+import {Link} from 'react-router-dom'
+import {Slot} from '@radix-ui/react-slot'
+import clsx from 'clsx'
+import style from './button.module.css'
+
+type Props = ComponentPropsWithoutRef<'button'> & {
+  asChild?: boolean
+}
+
+const Button = forwardRef<HTMLButtonElement, Props>(
+  ({className, asChild, ...props}, ref) => {
+    const Comp = asChild ? Slot : 'button'
+    return (
+      <Comp
+        className={clsx(style.button, className)}
+        ref={ref}
+        {...props}
+      />
+    )
+  }
+)
+```
+
+Explicando o código acima:
+
+* É um componente que aceita como props todos os atributos do `<button />` genérico.
+* Ele aceita receber `ref`
+* Ele implementa uma classe `.button` que adiciona os estilos do projeto
+* Caso você queira aplicar o estilo do botão em um outro componente, é possível através da prop `asChild`
+
+```tsx
+<Button className="minha-classe">Ver detalhes</Button>
+<Button type="submit" ref={buttonRef}>Enviar dados</Button>
+<Button asChild>
+  <Link to="/login">Entrar</Link>
+</Button>
+```
+
+No fim, código reutilizável ajuda bastante, mas ele é uma abstração e portanto deve ser bem pensado. Criar código reutilizável que não se adapta a todos os contextos pode criar uma bola de neve. É importante utilizar padrões já reconhecidos e dar controle para os devs utilizarem de formas não esperadas.

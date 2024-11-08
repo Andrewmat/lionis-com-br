@@ -34,7 +34,7 @@ export const components: MDXComponents = {
   figure: mergeElement(<figure className="overflow-x-auto" />),
   hr: mergeElement(<hr className="mb-4" />),
   blockquote: mergeElement(
-    <blockquote className="ps-4 pt-5  border-l-2 border-foreground italic bg-primary/20 text-primary-foreground" />
+    <blockquote className="ps-4 py-3 border-l-2 border-foreground italic bg-primary/20 text-primary-foreground" />
   ),
   img: mergeElement(<img className="mx-auto" />),
 };

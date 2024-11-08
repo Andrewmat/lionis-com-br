@@ -40,7 +40,7 @@ export function SectionTitle<AsType extends `h${1 | 2 | 3 | 4 | 5 | 6}`>({
   };
 
   return (
-    <div className="flex gap-2 items-center mt-3">
+    <div className="flex gap-2 items-center mt-2 pt-2 border-t-2 border-dotted">
       {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
       <a id={slug} className="scroll-mt-[var(--header-height)]">
         {/* @ts-ignore */}
