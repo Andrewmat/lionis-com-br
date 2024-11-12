@@ -1,10 +1,9 @@
 import type { LoaderFunction } from '@remix-run/node';
 import type { MetaDescriptor } from '@remix-run/react';
-import { ErrorBoundary } from 'react-error-boundary';
 import { format, formatDistanceToNow } from 'date-fns';
 import { Badge } from '~/components/ui/badge';
 
-export type FrontmatterMeta = {
+export type PostFrontmatter = {
   title: string;
   published: boolean;
   publishDate: string;
@@ -15,14 +14,14 @@ export type FrontmatterMeta = {
 };
 
 /** transforms mdx frontmatter metadata to remix metadata */
-export function getMeta(frontmatter: FrontmatterMeta): MetaDescriptor[] {
+export function getMeta(frontmatter: PostFrontmatter): MetaDescriptor[] {
   return [
     { title: `${frontmatter.title} | Eu, Lionis` },
     { description: frontmatter.description },
   ];
 }
 
-export function getLoader(frontmatter: FrontmatterMeta): LoaderFunction {
+export function getLoader(frontmatter: PostFrontmatter): LoaderFunction {
   if (import.meta.env.DEV) {
     return () => null;
   }
@@ -36,7 +35,7 @@ export function getLoader(frontmatter: FrontmatterMeta): LoaderFunction {
   };
 }
 
-export function PostHeader(props: FrontmatterMeta) {
+export function PostHeader(props: PostFrontmatter) {
   return (
     <div className="mb-4 flex flex-col gap-2">
       <h1 className="text-4xl">{props.title}</h1>

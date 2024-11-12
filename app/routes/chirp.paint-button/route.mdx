@@ -1,0 +1,16 @@
+---
+title: Pintar botões
+publishDate: 1731441900000
+---
+import { Link } from '@remix-run/react';
+import { getMeta, getLoader , PostHeader } from '~/lib/mdx-utils';
+import { ChirpFooter } from '~/components/chirp-footer';
+
+export const loader = getLoader(frontmatter);
+export const meta = getMeta(frontmatter);
+
+Vi um post no LinkedIn defendendo o frontend. Como argumento o post trouxe uma imagem mostrando como a arquitetura é complexa, com componentes, facades, classes, e stores. O post continua falando como frontend "não é só pintar botãozinho".
+
+Nada contra **arquitetura**, mas o post comprou a briga do lado errado. Pintar botões é tão difícil quanto arquitetura, se pá mais. Só que pintar botões é desvalorizado. Nós desenvolvedores temos que parar de pensar tanto em sistemas e aprender seu dever primário com o usuário.
+
+<ChirpFooter {...frontmatter} />
