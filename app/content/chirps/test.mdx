@@ -1,0 +1,17 @@
+---
+title: test 123
+publishDate: 1731467800000
+---
+
+Isso aqui é um teste. Eu importei esse mdx direto no corpo do componente, e resolvi a promise com [`use()`](https://react.dev/reference/react/use). Não sei como isso funciona, mas tô estupefato. Acho que o MDX tá no bundle de alguma forma.
+
+```jsx
+function Route() {
+  const mdxModule = getModule(import.meta.glob(['file.mdx']))
+  return <Resolver mdxModule={mdxModule} />
+}
+function Resolver({ mdxModule }) {
+  const MdxContent = use(mdxModule)
+  return <MdxContent />
+}
+```

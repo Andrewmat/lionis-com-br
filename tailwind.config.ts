@@ -1,9 +1,11 @@
-import type { Config } from 'tailwindcss';
-import plugin from 'tailwindcss/plugin';
+import type { Config } from 'tailwindcss'
+import plugin from 'tailwindcss/plugin'
 
 export default {
   darkMode: ['class'],
-  content: ['./app/**/{**,.client,.server}/**/*.{js,jsx,ts,tsx,mdx}'],
+  content: [
+    './app/**/{**,.client,.server}/**/*.{js,jsx,ts,tsx,mdx}',
+  ],
   theme: {
     extend: {
       fontFamily: {
@@ -82,8 +84,8 @@ export default {
             textShadow: value,
           }),
         },
-        { values: theme('textShadow') }
-      );
+        { values: theme('textShadow') },
+      )
     }),
   ],
-} satisfies Config;
+} satisfies Config

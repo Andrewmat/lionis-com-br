@@ -73,6 +73,7 @@ module.exports = {
       ],
       rules: {
         '@typescript-eslint/ban-ts-comment': 'off',
+        'react/prop-types': 'off'
       },
     },
 
@@ -84,4 +85,4 @@ module.exports = {
       },
     },
   ],
-};
+}

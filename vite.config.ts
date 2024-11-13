@@ -1,13 +1,13 @@
-import { resolve } from 'node:path';
-import { vitePlugin as remix } from '@remix-run/dev';
-import { defineConfig } from 'vite';
-import tsconfigPaths from 'vite-tsconfig-paths';
-import mdx from '@mdx-js/rollup';
-import remarkFrontmatter from 'remark-frontmatter';
-import { rehypePrettyCode } from 'rehype-pretty-code';
-import remarkMdxFrontmatter from 'remark-mdx-frontmatter';
-import rehypeColorChips from 'rehype-color-chips';
-import { netlifyPlugin } from '@netlify/remix-adapter/plugin';
+import { resolve } from 'node:path'
+import { vitePlugin as remix } from '@remix-run/dev'
+import { defineConfig } from 'vite'
+import tsconfigPaths from 'vite-tsconfig-paths'
+import mdx from '@mdx-js/rollup'
+import remarkFrontmatter from 'remark-frontmatter'
+import { rehypePrettyCode } from 'rehype-pretty-code'
+import remarkMdxFrontmatter from 'remark-mdx-frontmatter'
+import rehypeColorChips from 'rehype-color-chips'
+import { netlifyPlugin } from '@netlify/remix-adapter/plugin'
 
 const mdxConfig = mdx({
   remarkPlugins: [remarkFrontmatter, remarkMdxFrontmatter],
@@ -24,7 +24,7 @@ const mdxConfig = mdx({
     rehypeColorChips,
   ],
   providerImportSource: '@mdx-js/react',
-});
+})
 
 const viteConfig = defineConfig({
   plugins: [
@@ -47,6 +47,6 @@ const viteConfig = defineConfig({
       '~': resolve(__dirname, './app'),
     },
   },
-});
+})
 
-export default viteConfig;
+export default viteConfig

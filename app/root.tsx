@@ -7,31 +7,37 @@ import {
   useLoaderData,
   useRouteLoaderData,
   type MetaFunction,
-} from '@remix-run/react';
-import type { LinksFunction, LoaderFunctionArgs } from '@remix-run/node';
-import clsx from 'clsx';
+} from '@remix-run/react'
+import type {
+  LinksFunction,
+  LoaderFunctionArgs,
+} from '@remix-run/node'
+import clsx from 'clsx'
 import {
   PreventFlashOnWrongTheme,
   ThemeProvider,
   useTheme,
   type Theme,
-} from 'remix-themes';
-import { themeSessionResolver } from './theme.server';
-import { Toaster } from './components/ui/toaster';
-import { setDefaultOptions } from 'date-fns';
-import { ptBR } from 'date-fns/locale/pt-BR';
-import logoUrl from './images/logo.svg?url';
-import './tailwind.css';
-import './global.css';
+} from 'remix-themes'
+import { themeSessionResolver } from './theme.server'
+import { Toaster } from './components/ui/toaster'
+import { setDefaultOptions } from 'date-fns'
+import { ptBR } from 'date-fns/locale/pt-BR'
+import logoUrl from './images/logo.svg?url'
+import './tailwind.css'
+import './global.css'
 
 export const meta: MetaFunction = () => [
   {
     title: 'Eu, Lionis | Blog de um frontend',
   },
-];
+]
 
 export const links: LinksFunction = () => [
-  { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
+  {
+    rel: 'preconnect',
+    href: 'https://fonts.googleapis.com',
+  },
   {
     rel: 'preconnect',
     href: 'https://fonts.gstatic.com',
@@ -46,56 +52,75 @@ export const links: LinksFunction = () => [
     type: 'image/svg+xml',
     href: logoUrl,
   },
-];
+]
 
-export async function loader({ request }: LoaderFunctionArgs) {
-  const { getTheme } = await themeSessionResolver(request);
-  return { theme: getTheme() };
+export async function loader({
+  request,
+}: LoaderFunctionArgs) {
+  const { getTheme } = await themeSessionResolver(request)
+  return { theme: getTheme() }
 }
 
-function Layout({ children }: { children: React.ReactNode }) {
-  const data = useRouteLoaderData<typeof loader>('root');
-  const [theme] = useTheme();
+function Layout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
+  const data = useRouteLoaderData<typeof loader>('root')
+  const [theme] = useTheme()
 
   return (
-    <html lang="pt-BR" className={clsx(theme)} data-theme={theme}>
+    <html
+      lang='pt-BR'
+      className={clsx(theme)}
+      data-theme={theme}
+    >
       <head>
-        <meta charSet="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta charSet='utf-8' />
+        <meta
+          name='viewport'
+          content='width=device-width, initial-scale=1'
+        />
         <Meta />
         <Links />
       </head>
       <body>
-        <div id="root">{children}</div>
+        <div id='root'>{children}</div>
         <ScrollRestoration />
-        <PreventFlashOnWrongTheme ssrTheme={Boolean(data?.theme)} />
+        <PreventFlashOnWrongTheme
+          ssrTheme={Boolean(data?.theme)}
+        />
         <Scripts />
         <Toaster />
       </body>
     </html>
-  );
+  )
 }
 
 export default function App() {
   return (
     <Providers>
-      <div className="wrapper">
+      <div className='wrapper'>
         <Outlet />
       </div>
     </Providers>
-  );
+  )
 }
 
-function Providers({ children }: { children: React.ReactNode }) {
-  const data = useLoaderData<typeof loader>();
+function Providers({
+  children,
+}: {
+  children: React.ReactNode
+}) {
+  const data = useLoaderData<typeof loader>()
   return (
     <ThemeProvider
       specifiedTheme={data?.theme as Theme}
-      themeAction="/action/set-theme"
+      themeAction='/action/set-theme'
     >
       <Layout>{children}</Layout>
     </ThemeProvider>
-  );
+  )
 }
 
-setDefaultOptions({ locale: ptBR });
+setDefaultOptions({ locale: ptBR })
