@@ -14,7 +14,11 @@ export function Layout({ children }: PropsWithChildren) {
           </Link>
 
           <div className='ms-auto'>
-            <Button asChild variant='link'>
+            <Button
+              asChild
+              variant='link'
+              className='dark:text-primary-foreground'
+            >
               <Link to='/eu'>Sobre mim</Link>
             </Button>
           </div>
@@ -22,10 +26,14 @@ export function Layout({ children }: PropsWithChildren) {
         </div>
       </header>
       <main className='py-4 px-5'>{children}</main>
-      <footer className='bg-secondary text-secondary-foreground px-5 flex justify-between items-center'>
+      <footer className='bg-muted text-muted-foreground px-5 flex justify-between items-center'>
         <div>
           Made by{' '}
-          <Button variant='link' asChild className='px-0'>
+          <Button
+            variant='link'
+            asChild
+            className='px-0 dark:text-primary-foreground'
+          >
             <Link
               to='https://github.com/Andrewmat'
               target='_blank'
