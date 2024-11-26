@@ -11,6 +11,8 @@ summary: |
 import { Link } from '@remix-run/react';
 import { getMeta, getLoader , PostHeader } from '~/lib/mdx-utils';
 import { Badge } from '~/components/ui/badge';
+import { Switch } from '~/components/ui/switch';
+import { Label } from '~/components/ui/label';
 
 export const loader = getLoader(frontmatter);
 export const meta = getMeta(frontmatter);
@@ -86,7 +88,10 @@ Com o tempo, alguns componentes complexos podem ser estruturados mas sempre com 
 
 Temos *muitos* padrões de UI que hoje o HTML não suporta nativamente e que devs precisam implementar do zero. Um exemplo clássico é o componente de switch. Ele é parecido com o checkbox, mas tanto seu visual quanto sua interação tem suas peculiaridades que diferem do checkbox padrão do HTML.
 
-![Componente switch de exemplo, com a label "airplane mode" e a posição de desligado](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/2a4rnivst1nbhoucgf1l.png)
+<div className="flex justify-center items-center space-x-2">
+  <Switch id="airplane-mode" />
+  <Label htmlFor="airplane-mode">Modo Avião</Label>
+</div>
 
 Você cria um switch do zero. É um exercício legal e você faz um bom trabalho. Mas é provável  que você não lidou corretamente com a navegação por teclado e leitor de tela do componente.
 

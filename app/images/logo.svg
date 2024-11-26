@@ -7,6 +7,6 @@
   </style>
   <g transform="translate(0, 65)">
     <rect width="200" height="200" x="0" y="0" fill="#590080" transform="rotate(-19)" />
-    <text transform="translate(60, 130) rotate(-7)" class="logo">EL</text>
+    <text transform="translate(110, 125) rotate(-6)" class="logo">EL</text>
   </g>
 </svg>

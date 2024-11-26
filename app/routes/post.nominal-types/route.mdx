@@ -1,0 +1,123 @@
+---
+title: Tipagem nominal no TS
+description: Tipagem nominal no TS
+published: true
+publishDate: 1732639312926
+tags: [typescript]
+summary: |
+  Onde o Typescript não consegue ir
+---
+import { Link } from '@remix-run/react';
+import { getMeta, getLoader , PostHeader } from '~/lib/mdx-utils';
+
+export const loader = getLoader(frontmatter);
+export const meta = getMeta(frontmatter);
+
+<PostHeader {...frontmatter} />
+
+O Typescript é um sistema de tipo estrutural em sua grande parte
+
+```ts
+type User = { name: string }
+type User2 = { name: string }
+
+// Objeto tem um tipo
+let user: User;
+
+// Função recebe outro tipo igual
+function saveUser(user: User2): void
+
+// isso funciona mesmo os
+// dois tipos sendo diferentes
+saveUser(user)
+```
+
+Pra mim isso foi um contraste enorme com o que eu conhecia em outras linguagens de programação. No Java, se tem duas classes com a mesma estrutura, elas não são intercambiáveis por padrão. É necessário criar uma interface entre elas.
+
+Estamos usando estruturas pra descrever o tipo. Isso é ótimo porque flexibiliza o typescript pra ficar próximo ao js
+
+O enum é um ponto fora da curva, mesmo tendo o mesmo valor literal, ele não é considerado o mesmo tipo
+
+```ts
+enum FetchStatus {
+  IDLE = 'idle',
+  PENDING = 'pending',
+  FINISHED = 'finished',
+  FAILED = 'failed',
+}
+
+function showMessage(
+  status: FetchStatus
+): void
+
+// funciona
+showMessage(FetchStatus.PENDING)
+
+// dá erro, mesmo que 'pending'
+// é o mesmo valor que está no enum
+showMessage('pending')
+```
+
+Eu tenho meus pontos contra enum, mas eu considero que esse tipo de tipagem (nominal) tem seu valor no ts aonde ele não consegue chegar.
+
+Por exemplo, a tipagem de email em aplicações por aí geralmente é frágil e permite qualquer string
+
+```ts
+function sendEmail(email: string): void
+const invalidEmail =
+  'não é email'
+// TS não pega o erro,
+// mas runtime quebra
+sendEmail(email)
+```
+
+TS se preocupa somente com tipar os valores primitivos, mas é possível usar tipagem nominal pra granular mais os valores.
+
+```ts
+function sendEmail(email: Email): void
+const invalidEmail =
+  'não é email'
+// Erro de tipagem!
+// Email é uma string, não um email
+sendEmail(email)
+```
+
+No ts, temos uma técnica chamada de Branded Type.
+
+```ts
+// esse tipo é um Email,
+// mas recebe o valor de uma string
+type Email = Branded<string, 'email'>
+```
+
+E junto com essa tipagem, podemos colocar um type guard que valida o email
+
+```ts
+const email = 'user@example.com'
+
+// erro do tipo: email não foi validado
+sendEmail(email)
+
+// sucesso
+// email validado antes de enviar
+if (isEmail(email)) {
+  sendEmail(email)
+}
+```
+
+O tipo Brand pode ser implementado assim:
+
+```ts
+declare const __brand: unique symbol
+type Brand<B> = { [__brand]: B }
+type Branded<T, B> = T & Brand<B>
+```
+
+Podemos aproveitar essas características pra forçar a validação de diversos tipos valores no nosso fluxo de dados, seja email, uuid, datas etc. É uma ótima forma de combinar tipagem com runtime.
+
+---
+
+Mais sobre:
+
+* Issue de suporte a [nominals no TS](https://github.com/Microsoft/Typescript/issues/202)
+* Branded Types no [Egghead](https://egghead.io/blog/using-branded-types-in-typescript) e no [Learning Typescript](https://www.learningtypescript.com/articles/branded-types)

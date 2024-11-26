@@ -17,9 +17,6 @@ export function Layout({ children }: PropsWithChildren) {
             <Button asChild variant='link'>
               <Link to='/eu'>Sobre mim</Link>
             </Button>
-            <Button asChild variant='link'>
-              <Link to='/chirps'>Chirps</Link>
-            </Button>
           </div>
           <ModeToggle />
         </div>
