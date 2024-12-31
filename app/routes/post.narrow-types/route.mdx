@@ -1,0 +1,78 @@
+---
+title: Narrow Types com `const` modifier
+description: Narrow Types com const modifier
+published: true
+publishDate: 1735656800000
+updateDate: 1735656800000
+tags: [typescript]
+summary: |
+  Como trazer de volta aquele tipo literal que foi perdido
+---
+import { Link } from '@remix-run/react';
+import { getMeta, getLoader , PostHeader } from '~/lib/mdx-utils';
+
+export const loader = getLoader(frontmatter);
+export const meta = getMeta(frontmatter);
+
+<PostHeader {...frontmatter} />
+
+Podemos limitar a tipagem de TS para receber tipos mais estreitos ("narrow types"). Por exemplo, como essa variável é uma `const`, o TS já declara ela do tipo literal ao invés de um tipo abrangente como `string`
+
+```ts
+const example = "hello world";
+//    ^? const example: "hello world"
+```
+<small>[TS Playground](https://www.typescriptlang.org/play/?#code/MYewdgzgLgBApgDwIYFsAOAbOMC8MBEAFnBhiDAO4gBOGAJvgNwBQA9KzJzAHoD8QA)</small>
+
+Só que quando a gente vai passando valores pra lá e pra cá, alguns desses tipos podem acabar ficando mais abrangentes, o que geralmente não é desejado.
+Por exemplo, se eu passar para uma função que recebe e retorna string, o tipo mais estreito vai se perder no meio do caminho.
+
+```ts
+const returnString = (s: string) => s;
+const example = returnString('Hello world');
+//    ^? const example: string
+```
+<small>[TS Playground](https://www.typescriptlang.org/play/?#code/MYewdgzgLgBATgUygVzmAylOBLMBzGAXhgAoIAuGaHfASiID4qBuAKFElgQA8BDAWwAOAGwRF4SVBiy48JAOQAJBMOEgYAdxBxhAE3m02AeiMwzMAHoB+IA)</small>
+
+Com a ajuda de generics, podemos manter o tipo mais estreito
+
+```ts
+const returnString = <TString extends string>(s: TString) => s;
+const example = returnString('Hello world');
+//    ^? const example: 'Hello world'
+```
+<small>[TS Playground](https://www.typescriptlang.org/play/?#code/MYewdgzgLgBATgUygVzmAylOBLMBzGAXhgB4AVTHfGBADygTABMIZoq8A+ACggC4YFLLjwBKIpzYBuAFChIsOgEMAtgAcANgiLwkqDMPzcA5AAkEGjSBgB3EHA1Njo2QHpXMTzAB6AfiA)</small>
+
+## `as const`
+
+Isso não funciona com tipagens mais complexas. Se eu tentar fazer isso com um array de strings, o array é mutável por padrão, e não tem como TS perceber isso de antemão.
+
+```ts
+const returnArray = <TArray extends string[]>(arr: TArray) => arr;
+const example = returnArray(['alice', 'bob', 'charles']);
+//    ^? const example: string[]
+```
+<small>[TS Playground](https://www.typescriptlang.org/play/?#code/MYewdgzgLgBATgUygVzmAgnOBDAnjAXhgB4AVTHfBADygTABMIZo4BLMAcwG0BdAPgAU2LAC4Y5LHgCUhfjBFwA3AChQkWDWwBbAA4AbBIXhJUGKbkHcA5Nn1tgCawBoY1gEYh3Lt8AAWIoYQ1rzSqgD04TDRMAB6APxAA)</small>
+
+Nesses casos, era costume de desenvolvimento colocar um `as const` depois do valor. Isso anuncia pro TS que esse array não é mutável e ele consegue retornar a tipagem original.
+
+```ts
+const example = returnArray(['alice', 'bob', 'charles'] as const);
+//    ^? const example: ['alice', 'bob', 'charles']
+```
+<small>[TS Playground](https://www.typescriptlang.org/play/?#code/MYewdgzgLgBATgUygVzmAgnOBDAnjAXhgB4AVTHfBADygTABMIZo4BLMAcwG0BdAPgAU2LAC4Y5LHgCUhfjBFwA3AChQkWDWwBbAA4AbBIXhJUGKbkHcA5Nn1tgCawBoY1gEYh3Lt8AAWIoYQ1rwKzOrQ0qoA9NEw8TAAegD8QA)</small>
+
+Mas isso não é o suficiente. Quem vai chamar a função precisa lembrar de colocar `as const`, e isso torna o código refém de erros humanos. Também, já que toda vez que função for executada precisa passa `as const`, o código fica mais verboso, ainda mais se a função é chamada muitas vezes pelo projeto. Essas falhas ficam bem pronunciadas para bibliotecas, já que o criador da API tem que educar os usuários da biblioteca a usar o `as const`.
+
+## `const T`
+
+No TS v5.0, chega então o modificador `const` de tipos genéricos
+
+```ts
+const returnArray = <const TArray extends string[]>(arr: TArray) => arr;
+const example = returnArray(['alice', 'bob', 'charles']);
+//    ^? const example: ['alice', 'bob', 'charles']
+```
+<small>[TS Playground](https://www.typescriptlang.org/play/?#code/MYewdgzgLgBATgUygVzmAgnOBDAnjAXhgB5RJYAVTHfBADygTABMIZo4BLMAcwG0AugD4AFNiwAuGFSx4AlISExxcAFBloMetgC2ABwA2CQvCSoMs3CL4BybAc7AENgDQwbAIxAfX74AAtxIwgbATlVAHoImBiYAD0AfiA)</small>
+
+Com o modificador `const` antes da declaração do parâmetro `TArray`, a função usa o valor que é passado para ela como se o argumento utilizasse `as const`.
