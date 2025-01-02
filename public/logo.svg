@@ -1,0 +1,12 @@
+<svg width="256" height="256" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .logo {
+      font: bold 90px sans-serif;
+      fill: #f3f0f5;
+    }
+  </style>
+  <g transform="translate(0, 65)">
+    <rect width="200" height="200" x="0" y="0" fill="#590080" transform="rotate(-19)" />
+    <text transform="translate(110, 125) rotate(-6)" class="logo">EL</text>
+  </g>
+</svg>

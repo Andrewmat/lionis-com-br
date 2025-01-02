@@ -24,17 +24,20 @@ import { Toaster } from './components/ui/toaster'
 import { setDefaultOptions } from 'date-fns'
 import { ptBR } from 'date-fns/locale/pt-BR'
 import logoUrl from './images/logo.svg?url'
+import { WEBSITE_URL } from './lib/const'
 import './tailwind.css'
 import './global.css'
 
 export const meta: MetaFunction = () => {
+  const ogImageUrl = new URL(WEBSITE_URL)
+  ogImageUrl.pathname = '/logo.svg'
   return [
     {
       title: 'Eu, Lionis | Blog de um frontend',
     },
     {
       name: 'og:image',
-      content: logoUrl,
+      content: ogImageUrl,
     },
     {
       name: 'og:type',

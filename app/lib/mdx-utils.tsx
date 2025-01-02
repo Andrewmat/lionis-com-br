@@ -1,7 +1,6 @@
 import type { LoaderFunction } from '@remix-run/node'
 import type { MetaDescriptor } from '@remix-run/react'
 import { format, formatDistanceToNow } from 'date-fns'
-import logoUrl from '~/images/logo.svg?url'
 import { Badge } from '~/components/ui/badge'
 import { WEBSITE_URL } from './const'
 
@@ -21,6 +20,8 @@ export function getMeta(
 ): MetaDescriptor[] {
   const authorUrl = new URL(WEBSITE_URL)
   authorUrl.pathname = '/eu'
+  const ogImageUrl = new URL(WEBSITE_URL)
+  ogImageUrl.pathname = '/logo.svg'
   return [
     { title: `${frontmatter.title} | Eu, Lionis` },
     { description: frontmatter.description },
@@ -28,7 +29,11 @@ export function getMeta(
       name: 'og:description',
       content: frontmatter.description,
     },
-    { name: 'og:image', content: logoUrl },
+    { name: 'og:image', content: ogImageUrl },
+    {
+      name: 'author',
+      content: authorUrl,
+    },
     {
       name: 'article:author',
       content: authorUrl,
