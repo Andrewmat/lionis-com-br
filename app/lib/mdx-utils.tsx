@@ -21,8 +21,6 @@ export function getMeta(
 ): MetaDescriptor[] {
   const authorUrl = new URL(WEBSITE_URL)
   authorUrl.pathname = '/eu'
-  const ogImageUrl = new URL(WEBSITE_URL)
-  ogImageUrl.pathname = logoUrl
   return [
     { title: `${frontmatter.title} | Eu, Lionis` },
     { description: frontmatter.description },
@@ -30,7 +28,7 @@ export function getMeta(
       name: 'og:description',
       content: frontmatter.description,
     },
-    { name: 'og:image', content: ogImageUrl },
+    { name: 'og:image', content: logoUrl },
     {
       name: 'article:author',
       content: authorUrl,

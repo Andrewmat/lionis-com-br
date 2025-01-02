@@ -39,8 +39,8 @@ const viteConfig = defineConfig({
         v3_throwAbortReason: true,
       },
     }),
-    netlifyPlugin(),
     tsconfigPaths(),
+    netlifyPlugin(),
   ],
   resolve: {
     alias: {
