@@ -3,6 +3,7 @@ import {
   Link,
   Outlet,
   useRouteError,
+  type MetaFunction,
 } from '@remix-run/react'
 import { MDXProvider } from '@mdx-js/react'
 import { Layout } from '~/components/main-layout'
@@ -12,6 +13,13 @@ import { CopyIcon, Frown } from 'lucide-react'
 import type { LinksFunction } from '@remix-run/node'
 import { Button } from '~/components/ui/button'
 import { toast } from '~/hooks/use-toast'
+
+export const meta: MetaFunction = () => [
+  {
+    name: 'og:type',
+    content: 'article',
+  },
+]
 
 export const links: LinksFunction = () => [
   {

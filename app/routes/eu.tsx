@@ -1,7 +1,28 @@
-import { Link } from '@remix-run/react'
+import { Link, type MetaFunction } from '@remix-run/react'
 import { Layout } from '~/components/main-layout'
 import { Badge } from '~/components/ui/badge'
 import photoUrl from '~/images/lionis-profile.jpg?url'
+
+export const meta: MetaFunction = () => [
+  {
+    name: 'og:type',
+    content: 'profile',
+  },
+  {
+    name: 'og:title',
+    content: 'André Matulionis',
+  },
+  {
+    name: 'og:image',
+    content: photoUrl,
+  },
+  { name: 'profile:first_name', content: 'André' },
+  {
+    name: 'profile:last_name',
+    content: 'Matulionis dos Santos',
+  },
+  { name: 'profile:username', content: 'lionis' },
+]
 
 export default function EuPage() {
   return (

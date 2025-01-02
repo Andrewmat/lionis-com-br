@@ -2,6 +2,7 @@ import type { LoaderFunction } from '@remix-run/node'
 import type { MetaDescriptor } from '@remix-run/react'
 import { format, formatDistanceToNow } from 'date-fns'
 import { Badge } from '~/components/ui/badge'
+import { WEBSITE_URL } from './const'
 
 export type PostFrontmatter = {
   title: string
@@ -17,9 +18,23 @@ export type PostFrontmatter = {
 export function getMeta(
   frontmatter: PostFrontmatter,
 ): MetaDescriptor[] {
+  const authorUrl = new URL(WEBSITE_URL)
+  authorUrl.pathname = '/eu'
   return [
     { title: `${frontmatter.title} | Eu, Lionis` },
     { description: frontmatter.description },
+    {
+      name: 'og:description',
+      content: frontmatter.description,
+    },
+    {
+      name: 'article:author',
+      content: authorUrl,
+    },
+    ...(frontmatter.tags ?? []).map((content) => ({
+      name: 'article:tag',
+      content,
+    })),
   ]
 }
 
